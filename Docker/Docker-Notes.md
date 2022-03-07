@@ -3,7 +3,7 @@
 * **作者：** Nicolas·Lemon
 * **修改：** Nicolas·Lemon
 * **创建时间：** 2022.01.01
-* **修改时间：** 2022.01.05
+* **修改时间：** 2022.03.07
 
 
 
@@ -97,7 +97,7 @@ docker run \
 
 <img src="Docker-Notes.assets/image-20220102014346433.png" alt="image-20220102014346433" style="margin-left:30px;" />
 
-#### MySQL 5.8
+#### MySQL 8.0
 
 1. 运行容器
 
@@ -120,27 +120,27 @@ docker run \
 
 2. 配置权限
 
-   ```sh
+   ```mysql
    # 配置root连接权限
    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'WITH GRANT OPTION;
-   # 使新配置生效
-   FLUSH PRIVILEGES;
    
-   #创建一个${开发者}账户，且指定只能访问的数据库
+   #创建一个开发者账户，且指定只能访问的数据库
    create user 'developer'@'%' identified by '${devPassword}';
+   # 查看用户权限
+   show grants for 'developer'@'%';
+   # 赋予数据库权限
    GRANT ALL PRIVILEGES ON ${database}.* TO 'developer'@'%' WITH GRANT OPTION;
-   GRANT PROCESS on ${database}.* to 'developer'@'%' with GRANT option;
+   # 移除权限
+   REVOKE ALL PRIVILEGES,GRANT OPTION FROM 'developer'@'%';
+   # 刷新配置
    FLUSH PRIVILEGES;
-   # Mysql8.0 错误1227 Access Denied； you need the PROCESS privilege(s)
-   # 解决方案：
-   GRANT PROCESS on *.* to 'developer'@'%' with GRANT option;
    ```
 
    
 
 ### 字符集设置
 
-#### MySQL 5.7
+#### MySQL 5.7 & 8.0
 
 1. 新增/修改配置文件
 
