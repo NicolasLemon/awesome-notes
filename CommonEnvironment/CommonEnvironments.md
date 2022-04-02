@@ -710,7 +710,7 @@ cd /usr/local/mysql/bin
    
      <img src="CommonEnvironments.assets/image-20210917223306154.png" alt="image-20210918090358278" style="margin-left:30px;" />
    
-     或者，在浏览器地址栏中输入：**http://ip:80/**，显示有Nginx欢迎页面，表示安装成功
+     或者，在浏览器地址栏中输入： **http://ip:80/** ，显示有Nginx欢迎页面，表示安装成功
      
      <img src="CommonEnvironments.assets/image-20210923110425820.png" alt="image-20210923110425820" style="margin-left:30px;" />
      
