@@ -3,7 +3,7 @@
 * **作者：** Nicolas·Lemon
 * **修改：** Nicolas·Lemon
 * **创建时间：** 2021.09.16
-* **修改时间：** 2022.01.20
+* **修改时间：** 2022.04.02
 * 默认Linux系统是 **CentOS 7**
 * 默认Windows系统是 **Windows 10 x64**
 
@@ -94,7 +94,7 @@
    * 编辑配置文件 **/etc/profile**
 
      ```shell
-     vi /etc/profile
+     vim /etc/profile
      ```
 
    * 在末尾添加JDK环境变量
@@ -261,7 +261,7 @@
 6. 创建**my.cnf**配置文件，并将文件拷贝到 **/etc/** 下，如提示是否覆盖：y
 
    ```shell
-   vi my.cnf
+   vim my.cnf
    ```
 
    ```text
@@ -676,6 +676,17 @@ cd /usr/local/mysql/bin
      make install
      ```
      
+     若`make`命令时报错：
+     
+     <img src="CommonEnvironments.assets/70.png" alt="img" style="margin-left:30px;" />
+     
+     则可先运行以下命令：
+     
+     ```shell
+     yum -y install pcre-devel
+     yum -y install openssl openssl-devel
+     ```
+     
    * 寻找安装目录，找到安装目录是 **/usr/local/nginx**
    
      ```shell
@@ -718,7 +729,7 @@ cd /usr/local/mysql/bin
    * 编辑 **/etc/profile**
 
      ```shell
-     vi /etc/profile
+     vim /etc/profile
      ```
 
    * 在末尾添加Nginx环境变量
@@ -752,7 +763,7 @@ cd /usr/local/mysql/bin
 * 修改 **/etc/rc.d/rc.local** 文件，在末尾添加Nginx的启动路径（**/usr/local/nginx/sbin/nginx**）
 
   ```shell
-  vi /etc/rc.d/rc.local
+  vim /etc/rc.d/rc.local
   ```
   
   <img src="CommonEnvironments.assets/image-20210918095245730.png" alt="image-20210918095245730" style="margin-left:30px;" />
@@ -777,7 +788,7 @@ cd /usr/local/mysql/bin
 * 建立服务文件
 
   ```shell
-  vi /usr/lib/systemd/system/nginx.service
+  vim /usr/lib/systemd/system/nginx.service
   ```
 
 * 添加如下内容
@@ -950,7 +961,7 @@ cd /usr/local/mysql/bin
    * 编辑Nginx配置文件
 
      ```shell
-     vi /usr/local/nginx/conf/nginx.conf
+     vim /usr/local/nginx/conf/nginx.conf
      ```
 
    * 将Nginx的**server**端口改成对外的6668端口
@@ -1423,7 +1434,7 @@ cd /usr/local/mysql/bin
 
    ```shell
    # 编辑配置文件
-   vi svnserve.conf
+   vim svnserve.conf
    ```
 
    <img src="CommonEnvironments.assets/image-20210918155033368.png" alt="image-20210918095439771" style="margin-left:30px;" />
@@ -1431,7 +1442,7 @@ cd /usr/local/mysql/bin
 2. 添加访问用户
 
    ```shell
-   vi passwd
+   vim passwd
    ```
 
    <img src="CommonEnvironments.assets/image-20210918160008480.png" alt="image-20210918095439771" style="margin-left:30px;" />
@@ -1439,7 +1450,7 @@ cd /usr/local/mysql/bin
 3. 设置权限分组
 
    ```shell
-   vi authz
+   vim authz
    ```
 
    <img src="CommonEnvironments.assets/image-20210918160534558.png" alt="image-20210918095439771" style="margin-left:30px;" />
@@ -1473,7 +1484,7 @@ ps -ef | grep svnserve
 * 建立服务文件
 
   ```shell
-  vi /usr/lib/systemd/system/svn.service
+  vim /usr/lib/systemd/system/svn.service
   ```
 
 * 添加如下内容
