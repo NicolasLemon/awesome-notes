@@ -5,7 +5,7 @@
 * **作者：** Nicolas·Lemon
 * **修改：** Nicolas·Lemon
 * **创建日期：** 2021.12.24
-* **修改日期：** 2022.01.24
+* **修改日期：** 2022.04.11
 
 
 
@@ -224,4 +224,85 @@ macOS系统下默认的`.ssh`的目录是 **~/.ssh** ，基本上也不用去改
    ssh git@github.com -vv
    ```
 
-   
+
+### 分支合并
+
+* `git merge` 与 `git rebase` 的区别
+
+  `git merge`会导致git历史记录错综复杂，`git rebase`（变基）会让历史记录呈一条线性关系
+
+* 应先`git rebase`再`git merge`
+
+  `dev`分支合并到`master`分支：
+
+  ```sh
+  # 切换到dev分支 && \
+  # 将dev分支变基至master分支上 && \
+  # 切换回master分支 && \
+  # 合并dev分支至master分支 && \
+  # push修改 && \
+  # 切回dev分支 && \
+  # 重置dev分支的head指向
+  git checkout dev && \
+  git rebase master && \
+  git checkout master && \
+  git merge dev && \
+  git push origin master && \
+  git checkout dev && \
+  git reset --hard origin/dev
+  ```
+
+* 合并时需要忽略部分文件（例如配置文件）
+
+  `dev`分支合并到`master`分支，第一次合并：
+
+  若没有配置过全局配置，则需要先配置一下全局配置，有则跳过
+
+  ```sh
+  # 开启 merge.ours 驱动配置 
+  git config --global merge.ours.driver true
+  
+  # 开启 diff.nodiff 驱动跳过配置
+  # 在${path}下新建一个文件夹，名字改为true
+  # 这样就有了类似跳过的效果，不让其走内置的指令
+  git config --global diff.nodiff.command ${path}/true
+  ```
+  
+  新建一个`.gitattributes`配置文件：
+  
+  `.gitattributes`（示例）：
+  
+  ```text
+  src/main/resources/application.yml merge=ours
+  src/main/resources/application.yml diff=nodiff
+  
+  src/main/resources/application-druid.yml merge=ours
+  src/main/resources/application-druid.yml diff=nodiff
+  
+  README.md merge=ours
+  README.md diff=nodiff
+  ```
+  
+  然后再合并分支：
+  
+  ```sh
+  # 切换到dev分支 && \
+  # 将dev分支变基至master分支上 && \
+  # 切换回master分支 && \
+  # 合并dev分支至master分支
+  git checkout dev && \
+  git rebase master && \
+  git checkout master && \
+  git merge dev
+  
+  # 修改相应的配置文件后进行添加和提交
+  # 切回dev分支 && \
+  # 重置dev分支的head指向
+  git add . && \
+  git commit -m "初始化生产配置文件" &&
+  git push origin master && \
+  git checkout dev && \
+  git reset --hard origin/dev
+  ```
+  
+  

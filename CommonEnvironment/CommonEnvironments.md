@@ -3,7 +3,7 @@
 * **作者：** Nicolas·Lemon
 * **修改：** Nicolas·Lemon
 * **创建时间：** 2021.09.16
-* **修改时间：** 2022.04.02
+* **修改时间：** 2022.04.11
 * 默认Linux系统是 **CentOS 7**
 * 默认Windows系统是 **Windows 10 x64**
 
@@ -172,7 +172,7 @@
 
 4. 运行CMD测试Java环境是否配置成功
 
-   * **注：**三个命令都成功了，才表示jdk环境配置成功
+   * **注：** 三个命令都成功了，才表示jdk环境配置成功
 
      ``` shell
      java
@@ -839,7 +839,7 @@ cd /usr/local/mysql/bin
 
 * 直接解压缩压缩包就行
 
-  运行Nginx后，在浏览器地址栏中输入：**http://localhost:80/**，显示有Nginx欢迎页面
+  运行Nginx后，在浏览器地址栏中输入： **http://localhost:80/** ，显示有Nginx欢迎页面
 
   <img src="CommonEnvironments.assets/image-20210917194636841.png" alt="image-20210917194636841" style="margin-left:30px;" />
 
@@ -871,7 +871,7 @@ cd /usr/local/mysql/bin
 
 #### Nginx
 
-* **注：**启动Nginx后，修改其conf文件，需重新加载配置文件（**nginx -s reload**）
+* **注：** 启动Nginx后，修改其conf文件，需重新加载配置文件（**nginx -s reload**）
 
   ```shell
   # 启动
@@ -927,7 +927,7 @@ cd /usr/local/mysql/bin
 
 #### 端口转发
 
-* **前景：**公网ip只开放一个6668端口，但是Linux服务器上部署了多个项目，此时就需要使用Nginx进行端口转发，共用该6668端口
+* **前景：** 公网ip只开放一个6668端口，但是Linux服务器上部署了多个项目，此时就需要使用Nginx进行端口转发，共用该6668端口
 * 假设**6668**端口是共用对外的，Linux上在**2233**端口和**8001**端口上部署了项目
 
 1. 检查防火墙状态，如果防火墙是关闭的，就打开防火墙
@@ -1012,7 +1012,7 @@ cd /usr/local/mysql/bin
 
 1. 下载【**Binary zip archive**】版本的
 
-   **Tip：**作者下载Maven的时候还是3.8.1，所以下面不用纠结版本号，根据自己下载的版本配置即可
+   **Tip：** 作者下载Maven的时候还是3.8.1，所以下面不用纠结版本号，根据自己下载的版本配置即可
 
    <img src="CommonEnvironments.assets/image-20210918003049523.png" alt="image-20210918003049523" style="zoom:80%;" />
 
