@@ -3,7 +3,7 @@
 * **作者：** Nicolas·Lemon
 * **修改：** Nicolas·Lemon
 * **创建日期：** 2021.12.18
-* **修改日期：** 2021.12.18
+* **修改日期：** 2022.06.29
 
 
 
@@ -31,6 +31,13 @@
 ### 更改安装目录
 
 此处**只**针对**初次安装** **Docker Desktop** 时，不想让**Docker Desktop**默认安装在**C盘**中，这里**并不算**禁止检查更新里的步骤
+
+```shell
+mklink /j "C:\ProgramData\Docker" "D:\Program Files (x86)\Docker\ProgramData\Docker"
+mklink /j "C:\ProgramData\DockerDesktop" "D:\Program Files (x86)\Docker\ProgramData\DockerDesktop"
+mklink /j "C:\Program Files\Docker" "D:\Program Files (x86)\Docker\Program Files\Docker"
+mklink /j "C:\Users\NicolasLemon\AppData\Local\Docker" "D:\Program Files (x86)\Docker\AppData\Local\Docker"
+```
 
 <img src="Anti-DockerDesktopUpgrade.assets/image-20211218184742140.png" alt="image-20211218184742140" style="margin-left:30px;" />
 
