@@ -15,7 +15,7 @@
 
 * @vue/cli：`v4.5.17`
 
-<img title="" src="assets/2022-07-17-16-01-14-image.png" alt="" data-align="inline">
+<img title="" src="Vue.assets/2022-07-17-16-01-14-image.png" alt="" data-align="inline">
 
 ### 配置
 
@@ -25,7 +25,7 @@
 
 * 在安装目录下新建`node_cache`与`node_global`两个文件夹
   
-  ![](assets/2022-07-17-16-15-48-image.png)
+  ![](Vue.assets/2022-07-17-16-15-48-image.png)
 
 * 设置node地址
   
@@ -40,7 +40,7 @@
   npm config get cache
   ```
   
-  ![](assets/2022-07-17-16-22-16-image.png)
+  ![](Vue.assets/2022-07-17-16-22-16-image.png)
 
 * 添加环境变量
   
@@ -50,7 +50,7 @@
   D:\Program Files (x86)\nodejs\node_global
   ```
   
-  ![](assets/2022-07-17-16-25-51-image.png)
+  ![](Vue.assets/2022-07-17-16-25-51-image.png)
 
 #### 淘宝镜像
 
@@ -61,7 +61,7 @@ npm config get registry
 npm config set registry http://registry.npm.taobao.org/
 ```
 
-![](assets/2022-07-17-16-09-46-image.png)
+![](Vue.assets/2022-07-17-16-09-46-image.png)
 
 #### Vue脚手架
 
@@ -69,7 +69,7 @@ npm config set registry http://registry.npm.taobao.org/
 npm install -g @vue/cli@4.5.17
 ```
 
-![](assets/2022-07-17-16-28-22-image.png)
+![](Vue.assets/2022-07-17-16-28-22-image.png)
 
 ## 响应式布局
 
@@ -105,8 +105,8 @@ npm install -g @vue/cli@4.5.17
   // 引用 flexible 插件
   import "lib-flexible/flexible.js";
   ```
-
-<img title="" src="assets/2022-07-17-16-37-02-image.png" alt="" data-align="inline">
+  
+  <img title="" src="Vue.assets/2022-07-17-16-37-02-image.png" alt="" data-align="inline">
 
 #### 配置
 
@@ -133,8 +133,8 @@ npm install -g @vue/cli@4.5.17
       flexible.rem = win.rem = rem;
   }
   ```
-
-![](assets/2022-07-17-16-36-05-image.png)
+  
+  ![](Vue.assets/2022-07-17-16-36-05-image.png)
 
 ### postcss-plugin-px2rem
 
@@ -175,7 +175,5 @@ npm install -g @vue/cli@4.5.17
       }
   }
   ```
-
-![](assets/2022-07-17-16-34-54-image.png)
-
-
+  
+  ![](Vue.assets/2022-07-17-16-34-54-image.png)
