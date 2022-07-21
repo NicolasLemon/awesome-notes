@@ -3,7 +3,7 @@
 - **作者：** Nicolas·Lemon
 - **修改：** Nicolas·Lemon
 - **创建日期：** 2022.07.17
-- **修改日期：** 2022.07.17
+- **修改日期：** 2022.07.21
 
 # Vue2.0
 
@@ -177,3 +177,136 @@ npm install -g @vue/cli@4.5.17
   ```
   
   ![](Vue.assets/2022-07-17-16-34-54-image.png)
+
+## 视频播放插件
+
+**vue-video-player**
+
+### 安装
+
+如果需要播放m3u8等流媒体视频的话，那么也需要安装一下`videojs-contrib-hls`，不然不能播放m3u8格式的
+
+```bash
+npm install vue-video-player videojs-contrib-hls --save
+```
+
+### 引入
+
+可以全局引入插件，也可以在需要用到该插件的组件内单独引入（二选一）
+
+#### 全局引入
+
+在`main.js`里导入并引用
+
+```js
+import VideoPlayer from 'vue-video-player'
+
+// 播放m3u8格式流媒体视频所需
+import "videojs-contrib-hls";
+
+// 引入方式一
+import 'vue-video-player/src/custom-theme.css'
+import 'video.js/dist/video-js.css'
+
+// 引入方式二
+require('video.js/dist/video-js.css')
+require('vue-video-player/src/custom-theme.css')
+
+Vue.use(VideoPlayer)
+```
+
+#### 局部引用
+
+```v
+import { videoPlayer } from 'vue-video-player'
+import 'video.js/dist/video-js.css
+// 播放m3u8格式流媒体视频所需
+import "videojs-contrib-hls";'
+
+export default {
+  components: {
+    videoPlayer
+  }
+}
+```
+
+### 使用
+
+##### html部分
+
+```html
+<template>
+    <div class='demo'>
+        <video-player class="video-player vjs-custom-skin" 
+                      ref="videoPlayer" 
+                      :playsinline="true" 
+                      :options="playerOptions">
+        </video-player>
+    </div>
+</template>
+```
+
+##### js部分
+
+```v
+export default {
+  data() {
+    return {
+      playerOptions: {
+        // 可选的播放速度
+        playbackRates: [0.5, 1.0, 1.5, 2.0],
+        // 如果为true,浏览器准备好时开始会放
+        autoplay: false,
+        // 默认情况下将会消除任何音频。
+        muted: false,
+        // 是否视频一结束就重新开始。
+        loop: false,
+        // 建议浏览器在<video>加载元素后是否应该开始下载视频数据。auto浏览器选择最佳行为,立即开始加载视频（如果浏览器支持）
+        preload: "auto",
+        language: "zh-CN",
+        // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
+        aspectRatio: "16:9",
+        // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
+        fluid: true,
+        sources: [
+          {
+            // 视频类型
+            type: "video/mp4",
+            // type: "application/x-mpegURL",
+            // 视频url地址
+            src: "",
+          },
+        ],
+        // 视频封面地址
+        poster: "",
+        // 允许覆盖Video.js无法播放媒体源时显示的默认信息。
+        notSupportedMessage: "此视频暂无法播放，请稍后再试",
+        controlBar: {
+          // 当前时间和持续时间的分隔符
+          timeDivider: true,
+          // 显示持续时间
+          durationDisplay: true,
+          // 是否显示剩余时间功能
+          remainingTimeDisplay: false,
+          // 是否显示全屏按钮
+          fullscreenToggle: true,
+        },
+      },
+    };
+  },
+}
+```
+
+### 注意
+
+若使用了上面的flexible插件配置了响应式布局的话，而且播放器的大小又有控制在比较小的尺寸的话，那么最好把`node_modules\vue-video-player\src\custom-theme.css`中的`.vjs-control-bar`样式中的`font-size`给注释掉，不然可能在做自动响应式布局的时候，控制器的宽度会超过播放器的宽度
+
+![](Vue.assets/2022-07-21-10-49-52-image.png)
+
+![](Vue.assets/2022-07-21-10-46-43-image.png)
+
+### 参考
+
+* `Vue-视频播放插件vue-video-player的配置及简单使用`：`https://blog.csdn.net/qq_31455841/article/details/112497239`
+
+* `【视频组件】vue-video-player的使用`：`https://www.jianshu.com/p/ee92c9353124`
