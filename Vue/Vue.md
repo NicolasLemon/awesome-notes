@@ -3,7 +3,7 @@
 - **作者：** Nicolas·Lemon
 - **修改：** Nicolas·Lemon
 - **创建日期：** 2022.07.17
-- **修改日期：** 2022.07.21
+- **修改日期：** 2022.07.29
 
 # Vue2.0
 
@@ -299,14 +299,588 @@ export default {
 
 ### 注意
 
-若使用了上面的flexible插件配置了响应式布局的话，而且播放器的大小又有控制在比较小的尺寸的话，那么最好把`node_modules\vue-video-player\src\custom-theme.css`中的`.vjs-control-bar`样式中的`font-size`给注释掉，不然可能在做自动响应式布局的时候，控制器的宽度会超过播放器的宽度
+若使用了上面的flexible插件配置了响应式布局的话，而且播放器的大小又有控制在比较小的尺寸的话，有可能播放控制器的宽度会超过播放器的宽度，则需要在指定`style`中指定`font-size`
 
 ![](Vue.assets/2022-07-21-10-49-52-image.png)
 
-![](Vue.assets/2022-07-21-10-46-43-image.png)
+```v
+<style lang="scss" scoped>
+// 视频画面填充满播放器框架
+::v-deep .video-js .vjs-tech {
+  object-fit: fill;
+  -o-object-fit: fill;
+}
+// 视频播放器中控制条的字号
+::v-deep .video-js .vjs-control-bar {
+  font-size: 14px;
+}
+</style>
+```
 
 ### 参考
 
-* `Vue-视频播放插件vue-video-player的配置及简单使用`：`https://blog.csdn.net/qq_31455841/article/details/112497239`
+* [Vue-视频播放插件vue-video-player的配置及简单使用](https://blog.csdn.net/qq_31455841/article/details/112497239)
 
-* `【视频组件】vue-video-player的使用`：`https://www.jianshu.com/p/ee92c9353124`
+* [【视频组件】vue-video-player的使用](https://www.jianshu.com/p/ee92c9353124)
+
+## 深度修改样式
+
+如果在`style`中配置了`scoped`属性，那么**Vue**在渲染的时候就会自动加上一些id，会导致修改一些插件自带的`style`不起作用
+
+![](Vue.assets/2022-07-29-09-47-30-image.png)
+
+需要用到`/deep/`深度修改，如果`/deep/`在编译时报错，请使用`::v-deep`
+
+![](Vue.assets/2022-07-29-09-49-13-image.png)
+
+## 动态挂载组件
+
+如果需要在代码中动态使用组件，例如在地图组件上需要动态展示不同的弹框内容：
+
+![](Vue.assets/2022-07-29-09-14-58-image.png)
+
+```v
+<template>
+  <div id="content"></div>
+</template>
+<script>
+// 调用 Vue.extend() 所需
+import Vue from "vue";
+// 自定义需要调用的组件
+import AlarmBorder from "@/components/gis/AlarmBorder";
+
+export default {
+  methods: {
+    dynamicComponent() {
+      // 注册组件实例对象，Vue.extend()只能调用上述引入的组件，而不能是字符串“AlarmBorder”
+      let TheVueComponent = Vue.extend(AlarmBorder);
+      // 实例化组件,propsData中传递props相关的数据
+      let TheComponent = new TheVueComponent({
+        propsData: {
+          show: true,
+          dataList: [1, 2, 3, 5],
+        },
+      });
+      // 挂载到 <div id="content"></div> 中
+      let theComponent = TheComponent.$mount("#content");
+      // 获取挂载组件的元素dom
+      let element = theComponent.$el;
+    },
+  },
+};
+</script>
+```
+
+## 组件通信
+
+### 父子组件通信
+
+父子组件通信可以同props传递数据
+
+#### 子组件
+
+```v
+<script>
+export default {
+  name: "Son",
+  props: {
+    title: { type: String, default: "title" },
+    data: { type: Object, default: {} },
+  },
+};
+</script>
+```
+
+#### 父组件
+
+```v
+<template>
+  <div>
+    <Son :title="title" :data="data" />
+  </div>
+</template>
+<script>
+import { Son } from "./Son";
+export default {
+  name: "Father",
+  components: { Son },
+  data() {
+    return {
+      title: "标题",
+      data: { a: 1, b: 2 },
+    };
+  },
+};
+</script>
+```
+
+### 任意组件通信
+
+#### 全局事件总线
+
+在`组件A`中传递数据给`组件B`
+
+##### 安装
+
+`main.js`中添加如下：
+
+```v
+beforeCreate() {
+  // 安装全局事件总线
+  Vue.prototype.$bus = this
+}
+```
+
+![](Vue.assets/2022-07-29-09-52-06-image.png)
+
+##### 触发
+
+`A.vue`
+
+```v
+<script>
+export default {
+  methods: {
+    test() {
+      let data = [1, 2, 3, 5];
+      this.$bus.$emit("busTest", data);
+    },
+  },
+};
+</script>
+```
+
+##### 响应
+
+`B.vue`
+
+```v
+<script>
+export default {
+  mounted() {
+    this.$bus.$on("busTest", (data) => {
+      console.log("收到了A组件传递过来的数据：", data);
+    });
+  },
+};
+</script>
+```
+
+#### Vuex
+
+![](Vue.assets/2022-07-29-10-02-42-image.png)
+
+**注意：** 在代码中可以直接操作`mutations`，但是`mutations`中不写逻辑，逻辑写在`actions`中
+
+##### 模块化
+
+![](Vue.assets/2022-07-29-10-05-38-image.png)
+
+`index.js`
+
+```v
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+// 引入自定义的模块
+import alarm from './modules/alarm'
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  modules: {
+    alarm
+  },
+})
+
+
+```
+
+`modules/alarm.js`
+
+```v
+// 告警信息数据
+const state = {
+    alarmList: [],
+
+}
+// mutations中不写逻辑，逻辑写在actions里
+const mutations = {
+    ADD_ALARM_LIST(state, value) {
+        state.alarmList.push(value)
+    },
+}
+
+const actions = {
+    addAlarmList(context, value) {
+        value.forEach(v => {
+            if (v.hasOwnProperty('mapData')) {
+                context.commit('ADD_ALARM_LIST', v.mapData)
+            }
+        });
+    },
+}
+
+export default {
+    namespaced: true,
+    actions,
+    mutations,
+    state
+}
+```
+
+##### 使用
+
+```v
+<script>
+import { mapState, mapActions } from "vuex";
+export default {
+  methods: {
+    ...mapActions("alarm", ["addAlarmList"]),
+  },
+  computed: {
+    ...mapState("alarm", ["alarmList"]),
+  },
+};
+</script>
+```
+
+## 百度地图
+
+### 在线地图
+
+#### 引入
+
+`public/index.html`
+
+![](Vue.assets/2022-07-29-10-28-35-image.png)
+
+#### 使用
+
+**隐藏百度地图logo**
+
+`App.vue`
+
+```v
+<style lang="scss">
+/*取消百度地图logo*/
+.anchorBL {
+  display: none;
+}
+</style>
+```
+
+**使用百度地图**
+
+`GisMap.vue`
+
+```v
+<!-- GIS地图组件 -->
+<template>
+  <div class="gisMap">
+    <!-- 百度地图 -->
+    <div id="allmap"></div>
+  </div>
+</template>
+
+<script>
+import Vue from "vue";
+import { mapState } from "vuex";
+
+import AlertBorder from "@/components/gis/AlertBorder";
+import AlarmBorder from "@/components/gis/AlarmBorder";
+
+export default {
+  name: "GisMap",
+  data() {
+    return {
+      // 标记类型图标
+      icons: [
+        require("../../assets/icons/gis_map/type_1.png"),
+        require("../../assets/icons/gis_map/type_2.png"),
+        require("../../assets/icons/gis_map/type_3.png"),
+        require("../../assets/icons/gis_map/type_4.png"),
+      ],
+      myMap: "",
+      // 轨迹路线点位
+      polylinePoints: [
+        {
+          lng: 114.429479,
+          lat: 30.500157,
+        },
+        {
+          lng: 114.440402,
+          lat: 30.495925,
+        },
+        {
+          lng: 114.443061,
+          lat: 30.495365,
+        },
+        {
+          lng: 114.445217,
+          lat: 30.495054,
+        },
+        {
+          lng: 114.448379,
+          lat: 30.494867,
+        },
+        {
+          lng: 114.451972,
+          lat: 30.493871,
+        },
+        {
+          lng: 114.457722,
+          lat: 30.492502,
+        },
+        {
+          lng: 114.461315,
+          lat: 30.491568,
+        },
+        {
+          lng: 114.46383,
+          lat: 30.490946,
+        },
+        {
+          lng: 114.470945,
+          lat: 30.490635,
+        },
+        {
+          lng: 114.478059,
+          lat: 30.491879,
+        },
+        {
+          lng: 114.483808,
+          lat: 30.492813,
+        },
+        {
+          lng: 114.48697,
+          lat: 30.493498,
+        },
+      ],
+      // 标记层
+      markers: [],
+      // 标记点位
+      markerPoints: [
+        {
+          lng: 114.436162,
+          lat: 30.497667,
+          type: 1,
+          data: {
+            title: "热力图",
+            componentView: "AlertBorderImg",
+            componentData: {
+              src: require("../../assets/images/heatmap.png"),
+            },
+          },
+        },
+        {
+          lng: 114.478059,
+          lat: 30.491879,
+          type: 1,
+          data: {
+            title: "实时监控",
+            componentView: "AlertBorderVideo",
+            componentData: {
+              // type: "application/x-mpegURL",
+              // src: "http://114.115.179.29:7002/profile/upload/app-videos/production-security/production-security.m3u8",
+              type: "video/mp4",
+              src: require("../../assets/test_video/test-video.mp4"),
+            },
+          },
+        },
+      ],
+    };
+  },
+  computed: {
+    ...mapState("alarm", ["alarmList"]),
+  },
+  methods: {
+    baiduMap() {
+      var thisVue = this;
+      // 百度地图API功能
+      var bmap = document.getElementById("allmap");
+      bmap.style.height = "100%";
+      // 创建Map实例
+      var map = new BMap.Map("allmap");
+      // 开启鼠标滚轮缩放
+      map.enableScrollWheelZoom(true);
+      // 初始化地图,设置中心点坐标和地图级别
+      map.centerAndZoom(new BMap.Point(114.462321, 30.496406), 15);
+
+      // 运动轨迹
+      var plPath = [];
+      this.polylinePoints.forEach((e) =>
+        plPath.push(new BMap.Point(e.lng, e.lat))
+      );
+      var polyline = new BMap.Polyline(plPath, {
+        strokeColor: "#37a98e",
+        strokeWeight: 5,
+        strokeOpacity: 0.8,
+      });
+      map.addOverlay(polyline);
+
+      map.setMapStyle({ style: "midnight" });
+      thisVue.myMap = map;
+      addMarker(this.markerPoints);
+
+      function addMarker(points) {
+        // 循环建立标注点
+        for (var i = 0, pointsLen = points.length; i < pointsLen; i++) {
+          // 将标注点转化成地图上的点
+          var point = new BMap.Point(points[i].lng, points[i].lat);
+          var myIcon = new BMap.Icon(
+            thisVue.icons[points[i].type - 1],
+            new BMap.Size(32, 36)
+          );
+          // 将点转化成标注点
+          var marker = new BMap.Marker(point, { icon: myIcon });
+          thisVue.markers.push(marker);
+          // 将标注点添加到地图上
+          map.addOverlay(marker);
+          // 添加监听事件
+          (function () {
+            var thePoint = points[i];
+            marker.addEventListener("mouseover", function () {
+              thisVue.showInfo(this, thePoint);
+            });
+          })();
+        }
+      }
+
+      thisVue.showInfo = function (thisMarker, point) {
+        var theComponent = null;
+        var opts = {};
+        switch (point.type) {
+          // 弹窗框架类
+          case 1:
+            theComponent = AlertBorder;
+            opts = {
+              width: 389,
+              height: 285,
+            };
+            break;
+          // 告警信息类
+          case 2:
+            theComponent = AlarmBorder;
+            opts = {
+              width: 250,
+              height: 160,
+            };
+            break;
+          default:
+            break;
+        }
+        let ContentComponent = Vue.extend(theComponent);
+        let el = new ContentComponent({
+          propsData: { ...point.data },
+        }).$mount().$el;
+        thisMarker.openInfoWindow(new BMap.InfoWindow(el, opts));
+      };
+    },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.markerPoints.push(...this.alarmList);
+      this.baiduMap();
+      // 监听事件总线，表格点击“危险”那行的操作，显示地图上对应的告警信息组件
+      this.$bus.$on("showMapAlarmInfo", (data) => {
+        for (let key in this.markers) {
+          let markerPoint = this.markers[key].point;
+          if (data.lng === markerPoint.lng && data.lat === markerPoint.lat) {
+            this.showInfo(this.markers[key], data);
+            break;
+          }
+        }
+      });
+    });
+  },
+  beforeDestroy() {
+    this.$bus.$off("showMapAlarmInfo");
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+::v-deep .BMap_pop .BMap_top,
+::v-deep .BMap_pop .BMap_bottom,
+::v-deep .BMap_pop .BMap_center,
+::v-deep .BMap_shadow,
+::v-deep
+  #allmap
+  > div:nth-child(1)
+  > div:nth-child(2)
+  > div:nth-child(1)
+  > div
+  > div:nth-child(1)
+  > div,
+::v-deep
+  #allmap
+  > div:nth-child(1)
+  > div:nth-child(2)
+  > div:nth-child(1)
+  > div
+  > img:nth-child(10),
+::v-deep
+  #allmap
+  > div:nth-child(1)
+  > div:nth-child(2)
+  > div:nth-child(1)
+  > div
+  > div:nth-child(7),
+::v-deep
+  #allmap
+  > div:nth-child(1)
+  > div:nth-child(2)
+  > div:nth-child(1)
+  > div
+  > div:nth-child(8)
+  > img,
+::v-deep .BMap_pop div:nth-child(3),
+::v-deep .BMap_pop div:nth-child(5),
+::v-deep .BMap_pop div:nth-child(37) {
+  display: none;
+}
+
+.gisMap {
+  width: 1797px;
+  height: 508px;
+  display: flex;
+  background-color: #26293077;
+  margin: 0 auto;
+  border-radius: 3px;
+}
+
+#allmap {
+  width: 100%;
+  overflow: hidden;
+  margin: 0;
+  font-family: "微软雅黑";
+}
+</style>
+```
+
+#### 参考
+
+* [项目(燃气大屏)](https://github.com/NicolasLemon/gas-large-screen)
+
+* [百度地图JSAPI 3.0类参考](https://lbsyun.baidu.com/cms/jsapi/reference/jsapi_reference_3_0.html)
+
+* [地图JS API示例 | 百度地图开放平台](https://lbsyun.baidu.com/jsdemo.htm#a1_2)
+
+### 离线地图
+
+#### 引入
+
+同**在线地图**
+
+#### 参考
+
+* [vue集合离线百度地图-2020.01.09](https://segmentfault.com/a/1190000021538475)
+
+* [vue--百度地图之离线地图-2020.08.03](https://blog.csdn.net/sinat_36359516/article/details/107761067)
+
+* [Vue使用百度离线地图v3.0-2020.04.28](https://blog.csdn.net/bienaohaoma/article/details/105806932)
+
+* [vue整合百度离线地图api3.0-2020.12.08](https://blog.csdn.net/qq_39139923/article/details/110875789)
+
+* [vue项目中使用百度离线地图（最新全面爬坑版）-2022.04.27](https://blog.csdn.net/p_5050/article/details/123261394)
