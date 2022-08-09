@@ -495,3 +495,75 @@
   }
 }
 ```
+
+# 渐变色边框
+
+![](Css-Notes.assets/2022-08-09-20-38-23-image.png)
+
+## 实现
+
+```html
+<div class="border">
+    <div class="title">内容测试</div>
+</div>
+```
+
+```css
+.border {
+  position: relative;
+  width: 460px;
+  height: 243px;
+  color: #feffff;
+  border: 1px solid #264c67;
+  background-image: linear-gradient(
+    to bottom,
+    RGB(14, 48, 75, 0.8) 5%,
+    RGB(10, 33, 65, 0.8) 99%
+  );
+  &::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    right: 0;
+    top: -3px;
+    border-top: 3px solid;
+    border-image: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0) 0%,
+        #2fb7e2 50%,
+        rgba(255, 255, 255, 0) 99%
+      )
+      2 2 2 2;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      #2fb7e2 50%,
+      rgba(255, 255, 255, 0) 99%
+    );
+  }
+}
+.border .title {
+  position: absolute;
+  font-size: 18px;
+  font-weight: 800;
+  top: 10px;
+  left: 26px;
+  z-index: 2;
+  &::after {
+    position: absolute;
+    content: "";
+    z-index: -1;
+    left: -4px;
+    top: 15px;
+    width: 115px;
+    height: 11px;
+    transform: skewX(-30deg);
+    background-image: linear-gradient(
+      to right,
+      RGB(29, 146, 177, 0.7) 5%,
+      RGB(22, 97, 123, 1) 30%,
+      RGB(15, 46, 71, 0.7) 99%
+    );
+  }
+}
+```
