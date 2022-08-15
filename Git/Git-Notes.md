@@ -1,21 +1,19 @@
-# Git 初玩
+**Git 初玩**
 
 **在使用Git中碰到的常见玩法**
 
 * **作者：** Nicolas·Lemon
 * **修改：** Nicolas·Lemon
 * **创建日期：** 2021.12.24
-* **修改日期：** 2022.04.11
+* **修改日期：** 2022.08.15
 
+# 创建项目
 
-
-## 创建项目
-
-### 啥也没有
+## 啥也没有
 
 * Create a new repository
-
-  ```shell
+  
+  ```bash
   # 将空白远程仓库里的Git项目文件夹拉取到本地
   git clone http://${remote_address}/${project}.git
   # 进入这个项目的文件夹的目录
@@ -31,11 +29,11 @@
   git push -u origin master
   ```
 
-### 文件夹式
+## 文件夹式
 
 * Push an existing folder
-
-  ```shell
+  
+  ```bash
   # 进入到文件夹中
   cd ${existing_folder}
   # 初始化分支为master
@@ -50,11 +48,11 @@
   git push -u origin master
   ```
 
-### 本地仓库
+## 本地仓库
 
 * Push an existing Git repository（未测试）
-
-  ```shell
+  
+  ```bash
   # 进入到仓库中
   cd ${existing_repo}
   # 重命名分支
@@ -66,27 +64,23 @@
   git push -u origin --tags
   ```
 
+# 命令连接符
 
-
-## 命令连接符
-
-### `&&` 连接
+## && 连接
 
 命令连接符 `&&` ：前一条命令执行成功才执行后一条命令
 
-### `;;`连接
+## ;; 连接
 
 命令连接符 `;;` ：不论前一条命令是否执行成功都继续执行后一条命令
 
+# 常用玩法
 
-
-## 常用玩法
-
-### 全局设置
+## 全局设置
 
 * Git全局设置
-
-  ```shell
+  
+  ```bash
   # 设置Git用户名
   git config --global user.name "${yourname}"
   # 设置Git用户邮箱
@@ -105,20 +99,20 @@
   git config --global core.excludesfile ~/.gitignore
   ```
 
-### 强制推送
+## 强制推送
 
 * 强制推送
-
-  ```shell
+  
+  ```bash
   # 强制推送master分支
   git push origin master --force
   ```
 
-### 清除冗余
+## 清除冗余
 
 * 清除远程仓库中不需要的文件
-
-  ```shell
+  
+  ```bash
   # 先pull远程代码，保持同步
   git pull
   # 删除单个文件
@@ -131,20 +125,20 @@
   git push
   ```
 
-### 覆盖本地
+## 覆盖本地
 
 * 将远程仓库强制覆盖到本地
-
-  ```shell
+  
+  ```bash
   # 拉取所有更新，不同步 && 本地代码同步线上最新版本（会覆盖本地所有与远程仓库上同名的文件） && 再更新一次
   git fetch --all &&  git reset --hard origin/master && git pull origin master
   ```
 
-### 抹除记录
+## 抹除记录
 
 * 抹除Git的提交记录
-
-  ```shell
+  
+  ```bash
   # 基于当前分支创建一个独立的分支new_branch &&
   # 添加所有文件变化至暂存空间 && 
   # 提交并添加提交记录 &&
@@ -159,30 +153,29 @@
   git push -f origin master
   ```
 
-### 修改仓库指向
+## 修改仓库指向
 
 * 在Git远程仓库中修改了项目名后，远程仓库地址也会发生变化，所以需要将本地的仓库也同步一下
-
-  ```sh
+  
+  ```bash
   # 查看远程仓库名称
   git remote
   ```
-
+  
   <img src="Git-Notes.assets/image-20220104122456104.png" alt="image-20220104122456104" style="margin-left:30px;" />
-
-  ```sh
+  
+  ```bash
   # 更新指向的远程仓库
   git remote set-url ${origin} ${new_remote_address}
   ```
-  
 
-### 生成ssh密钥
+## 生成ssh密钥
 
 macOS系统下默认的`.ssh`的目录是 **~/.ssh** ，基本上也不用去改它
 
 1. 先设置Git的 **全局用户名** 和 **全局用户邮箱**（如果没有配置过的话）
-
-   ```sh
+   
+   ```bash
    # 设置Git用户名
    git config --global user.name "${yourname}"
    # 设置Git用户邮箱
@@ -190,33 +183,33 @@ macOS系统下默认的`.ssh`的目录是 **~/.ssh** ，基本上也不用去改
    ```
 
 2. 查看当前电脑下是否存在`.ssh`目录，如果存在，则先备份，然后再删除
-
-   ```sh
+   
+   ```bash
    # 进入目录，看是否存在一个已有的.ssh目录
    cd ~/.ssh
    ```
-
+   
    <img src="Git-Notes.assets/image-20220112205030288.png" alt="image-20220112205030288" style="margin-left:30px;" />
 
 3. 生成密钥
-
-   ```sh
+   
+   ```bash
    ssh-keygen -t rsa -C "${youremail}"
    ```
 
 4. 根据提示，一路三个回车即可，当然需要设置密码的，就设置
-
+   
    <img src="Git-Notes.assets/image-20220112205804489.png" alt="image-20220112205804489" style="margin-left:30px;" />
 
 5. 然后就可以在 **~/.ssh** 目录下见到两个文件
-
-   `id_rsa.pub`是公钥，`id.rsa`是私钥（这个要自己 **保密** 哦）
-
-   <img src="Git-Notes.assets/image-20220112205935113.png" alt="image-20220112205935113" style="margin-left:30px;" />
    
-6. 测试连接
+   `id_rsa.pub`是公钥，`id.rsa`是私钥（这个要自己 **保密** 哦）
+   
+   <img src="Git-Notes.assets/image-20220112205935113.png" alt="image-20220112205935113" style="margin-left:30px;" />
 
-   ```sh
+6. 测试连接
+   
+   ```bash
    # 测试连接（有提示输入yes即可）
    ssh -T git@github.com
    # ssh连接debugx
@@ -224,18 +217,17 @@ macOS系统下默认的`.ssh`的目录是 **~/.ssh** ，基本上也不用去改
    ssh git@github.com -vv
    ```
 
-
-### 分支合并
+## 分支合并
 
 * `git merge` 与 `git rebase` 的区别
-
+  
   `git merge`会导致git历史记录错综复杂，`git rebase`（变基）会让历史记录呈一条线性关系
 
 * 应先`git rebase`再`git merge`
-
+  
   `dev`分支合并到`master`分支：
-
-  ```sh
+  
+  ```bash
   # 切换到dev分支 && \
   # 将dev分支变基至master分支上 && \
   # 切换回master分支 && \
@@ -253,12 +245,12 @@ macOS系统下默认的`.ssh`的目录是 **~/.ssh** ，基本上也不用去改
   ```
 
 * 合并时需要忽略部分文件（例如配置文件）
-
+  
   `dev`分支合并到`master`分支，第一次合并：
-
+  
   若没有配置过全局配置，则需要先配置一下全局配置，有则跳过
-
-  ```sh
+  
+  ```bash
   # 开启 merge.ours 驱动配置 
   git config --global merge.ours.driver true
   
@@ -272,7 +264,7 @@ macOS系统下默认的`.ssh`的目录是 **~/.ssh** ，基本上也不用去改
   
   `.gitattributes`（示例）：
   
-  ```text
+  ```bash
   src/main/resources/application.yml merge=ours
   src/main/resources/application.yml diff=nodiff
   
@@ -285,7 +277,7 @@ macOS系统下默认的`.ssh`的目录是 **~/.ssh** ，基本上也不用去改
   
   然后再合并分支：
   
-  ```sh
+  ```bash
   # 切换到dev分支 && \
   # 将dev分支变基至master分支上 && \
   # 切换回master分支 && \
@@ -304,5 +296,21 @@ macOS系统下默认的`.ssh`的目录是 **~/.ssh** ，基本上也不用去改
   git checkout dev && \
   git reset --hard origin/dev
   ```
-  
-  
+
+## 本地忽略提交
+
+保持项目中的`.gitignore`文件不发生变化，且有的**已追踪**的文件不想提交到仓库里（若是**未追踪**的文件，用**全局**的`.gitignore`）
+
+```bash
+# 忽略某个已修改的文件
+git update-index --assume-unchanged ${file}
+# 取消某个文件忽略
+git update-index --no-assume-unchanged ${file}
+
+# 找到所有用上述方法忽略的文件
+git ls-files -v | grep '^h\ '
+# 找到所有用上述方法忽略的文件并提取相应的路径
+git ls-files -v | grep '^h\ ' | awk '{print $2}'
+# 全部取消忽略
+git ls-files -v | grep '^h' | awk '{print $2}' |xargs git update-index --no-assume-unchanged
+```
