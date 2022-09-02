@@ -3,7 +3,7 @@
 * **作者：** Nicolas·Lemon
 * **修改：** Nicolas·Lemon
 * **创建时间：** 2022.01.01
-* **修改时间：** 2022.07.17
+* **修改时间：** 2022.09.02
 
 ## 常用命令
 
@@ -25,6 +25,8 @@ docker ps
 docker ps -a
 # 停止容器
 docker stop ${container}
+# 停止所有正在运行的容器
+docker stop $(docker ps -q)
 # 删除容器
 docker rm ${container}
 # 进入容器控制台
@@ -34,6 +36,11 @@ docker exec -it ${container} ${/bin/bash}
 docker cp ${container_id}:${container_target_path} ${local_target_path}
 # 将本地文件（夹）复制到容器中
 docker cp ${local_target_path} ${container_id}:${container_target_path}
+
+# 导出镜像（到本地）
+docker save -o ${image_name}.tar ${image_name}
+# （从本地）导入镜像
+docker load -i ${image_name}.tar
 ```
 
 ### 网络相关
@@ -69,7 +76,7 @@ docker rmi ${container}
 
 ### 创建网络
 
-```sh
+```bash
 # 创建网络
 docker network create mysql
 ```
@@ -80,7 +87,6 @@ docker network create mysql
 
 ```sh
 docker run \
---restart=always \
 --name mysql \
 --network mysql \
 -p 3306:3306 \
@@ -101,7 +107,6 @@ docker run \
      
      ```sh
      docker run \
-     --restart=always \
      --name mysql8 \
      --network mysql \
      -p 3306:3306 \
@@ -176,6 +181,7 @@ docker run \
      collation-server=utf8_unicode_ci
      skip-character-set-client-handshake
      skip-name-resolve
+     bind-address=0.0.0.0
      ```
 
 2. 重启MySQL
@@ -227,7 +233,6 @@ docker network create redis
 
 ```sh
 docker run \
---restart=always \
 --name redis \
 --network=redis \
 -p 6379:6379 \
@@ -251,7 +256,6 @@ docker network create jenkins
 
 ```sh
 docker run \
---restart=always \
 --name jenkins \
 --detach \
 --privileged \
@@ -283,7 +287,6 @@ docker network create gitlab
 docker run --detach \
 --publish ${web_port}:${web_port} --publish ${ssh_port}:22 \
 --name gitlab \
---restart=always \
 --network gitlab \
 --volume /opt/docker-volume/gitlab/config:/etc/gitlab \
 --volume /opt/docker-volume/gitlab/logs:/var/log/gitlab \
@@ -294,7 +297,7 @@ gitlab/gitlab-ce
 
 ### 配置端口
 
-在上一步启动中，将GitLab的Web端口指向了自定义的 **${web_port}** 端口，将SSH连接的端口指向了自定义的 **${ssh_port}** ，故需要进入GitLab容器中，更新它自身相应的端口。
+在上一步启动中，将GitLab的Web端口指向了自定义的`${web_port}`端口，将SSH连接的端口指向了自定义的`${ssh_port}` ，故需要进入GitLab容器中，更新它自身相应的端口。
 
 1. 进入GitLab容器
    
@@ -408,7 +411,6 @@ docker rm nginx
 ```sh
 docker run \
 --name nginx \
---restart=always \
 --network nginx \
 -p 8080:80 \
 -v /opt/docker-volume/nginx/nginx.conf:/etc/nginx/nginx.conf:ro \
