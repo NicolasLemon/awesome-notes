@@ -3,7 +3,7 @@
 * **作者：** Nicolas·Lemon
 * **修改：** Nicolas·Lemon
 * **创建时间：** 2022.01.01
-* **修改时间：** 2022.09.02
+* **修改时间：** 2022.09.22
 
 ## 常用命令
 
@@ -392,7 +392,7 @@ docker network create nginx
 3. 将容器中的配置文件复制到本地
    
    ```sh
-   docker cp ${container_id}:/etc/nginx/nginx.conf /opt/docker-volume/nginx/nginx.conf
+   docker cp ${container_id}:/etc/nginx/nginx.conf /opt/docker-volume/nginx/conf/nginx.conf
    ```
 
 不出意外的话，复制出来的配置文件在本地的 **/opt/docker-volume/nginx/** 目录下
@@ -409,12 +409,14 @@ docker rm nginx
 接下来就可以已挂载启动的方式运行一个Nginx容器了
 
 ```sh
-docker run \
+docker run -d -p 8080:80  \
 --name nginx \
 --network nginx \
--p 8080:80 \
--v /opt/docker-volume/nginx/nginx.conf:/etc/nginx/nginx.conf:ro \
--d nginx
+-v /opt/docker-volume/nginx/html:/usr/share/nginx/html \
+-v /opt/docker-volume/nginx/conf/nginx.conf:/etc/nginx/nginx.conf \
+-v /opt/docker-volume/nginx/conf/conf.d:/etc/nginx/conf.d \
+-v /opt/docker-volume/nginx/logs:/var/log/nginx \
+nginx 
 ```
 
 ### 配置文件基础转发
