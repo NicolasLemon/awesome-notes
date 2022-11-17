@@ -79,17 +79,19 @@ Next
 
 # macOS
 
-# ffmpeg命令
+# others
+
+## ffmpeg命令
 
 **视频音频处理**
 
-## 转换视频格式
+### 转换视频格式
 
 ```shell
 ffmpeg -i 1.ts -vcodec copy -acodec copy 1.mp4
 ```
 
-## 剪裁视频
+### 剪裁视频
 
 ```shell
 # -ss：开始时间，-t：持续时间
@@ -97,7 +99,7 @@ ffmpeg -i 1.ts -vcodec copy -acodec copy 1.mp4
 ffmpeg -ss 00:10:30 -t 00:00:20 -i 1.mp4 -vcodec copy -acodec copy output.mp4
 ```
 
-## mp4格式无损合并
+### mp4格式无损合并
 
 1. 先将 mp4 转到 ts 流
    
@@ -122,7 +124,7 @@ ffmpeg -ss 00:10:30 -t 00:00:20 -i 1.mp4 -vcodec copy -acodec copy output.mp4
    ffmpeg -f concat -i file_list.txt -vcodec copy -acodec copy output.mp4
    ```
 
-## 竖屏调整为横屏
+### 竖屏调整为横屏
 
 1. 90°旋转视频（视频尺寸不变）
    
@@ -138,13 +140,13 @@ ffmpeg -ss 00:10:30 -t 00:00:20 -i 1.mp4 -vcodec copy -acodec copy output.mp4
    ffmpeg -i video_640x480.mp4 -vf scale=640:480,setdar=4:3
    ```
 
-## m4a格式转成mp3格式
+### m4a格式转成mp3格式
 
 ```shell
 ffmpeg -i a.m4a -acodec libmp3lame -ab 256k a.mp3
 ```
 
-## 内嵌srt字幕
+### 内嵌srt字幕
 
 ```shell
 # 针对 mp4 视频
