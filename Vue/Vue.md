@@ -3,7 +3,7 @@
 - **作者：** Nicolas·Lemon
 - **修改：** Nicolas·Lemon
 - **创建日期：** 2022.07.17
-- **修改日期：** 2022.07.29
+- **修改日期：** 2022.11.18
 
 # Vue2.0
 
@@ -375,44 +375,87 @@ export default {
 
 ### 父子组件通信
 
-父子组件通信可以同props传递数据
+父子组件之间的通信可以用`props`传递数据
 
-#### 子组件
+#### 父传子
 
-```v
-<script>
-export default {
-  name: "Son",
-  props: {
-    title: { type: String, default: "title" },
-    data: { type: Object, default: {} },
-  },
-};
-</script>
-```
+* 子组件（声明&接收）
+  
+  ```v
+  <template></template>
+  <script>
+  export default {
+    name: "Son",
+    props: {
+      title: { type: String, default: "title" },
+      data: { type: Object, default: {} },
+    },
+  };
+  </script>
+  ```
 
-#### 父组件
-
-```v
-<template>
-  <div>
+* 父组件（传递）
+  
+  ```v
+  <template>
     <Son :title="title" :data="data" />
-  </div>
-</template>
-<script>
-import { Son } from "./Son";
-export default {
-  name: "Father",
-  components: { Son },
-  data() {
-    return {
-      title: "标题",
-      data: { a: 1, b: 2 },
-    };
-  },
-};
-</script>
-```
+  </template>
+  <script>
+  import Son from "./Son";
+  export default {
+    name: "Father",
+    components: { Son },
+    data() {
+      return {
+        title: "标题",
+        data: { a: 1, b: 2 },
+      };
+    },
+  };
+  </script>
+  ```
+
+#### 子传父
+
+* 父组件（声明&接收）
+  
+  ```v
+  <template>
+    <Son :receive="receive" />
+  </template>
+  <script>
+  import Son from "./Son";
+  export default {
+    name: "Father",
+    components: { Son },
+    methods: {
+      receive(x) {
+        console.log("我收到了子组件传来的数据：", x);
+      },
+    },
+  };
+  </script>
+  ```
+
+* 子组件（传递）
+  
+  ```v
+  <template></template>
+  <script>
+  export default {
+    name: "Son",
+    props: ["receive"],
+    data() {
+      return {
+        title: "【我是子组件的标题】",
+      };
+    },
+    created() {
+      this.receive(this.title);
+    },
+  };
+  </script>
+  ```
 
 ### 任意组件通信
 
@@ -462,6 +505,10 @@ export default {
       console.log("收到了A组件传递过来的数据：", data);
     });
   },
+  beforeDestroy() {
+    // 销毁相应的全局事件总线
+    this.$bus.$off("busTest");
+  },
 };
 </script>
 ```
@@ -492,8 +539,6 @@ export default new Vuex.Store({
     alarm
   },
 })
-
-
 ```
 
 `modules/alarm.js`
