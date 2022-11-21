@@ -3,7 +3,7 @@
 - **作者：** Nicolas·Lemon
 - **修改：** Nicolas·Lemon
 - **创建日期：** 2022.07.17
-- **修改日期：** 2022.11.18
+- **修改日期：** 2022.11.21
 
 # Vue2.0
 
@@ -549,6 +549,7 @@ const state = {
     alarmList: [],
 
 }
+
 // mutations中不写逻辑，逻辑写在actions里
 const mutations = {
     ADD_ALARM_LIST(state, value) {
@@ -578,13 +579,23 @@ export default {
 
 ```v
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 export default {
   methods: {
+    // 模块化后，前面的 “alarm” 是模块名
     ...mapActions("alarm", ["addAlarmList"]),
+    ...mapMutations("alarm", { addAlarmListMutation: "ADD_ALARM_LIST" }),
   },
   computed: {
     ...mapState("alarm", ["alarmList"]),
+  },
+  created() {
+    // 直接操作mutation
+    this.addAlarmListMutation(this.alarmDataList);
+    // 通过操作action来提交到mutation
+    this.addAlarmList(this.alarmDataList);
+    // 读取state中的数据
+    console.log("this.alarmList", this.alarmList);
   },
 };
 </script>
