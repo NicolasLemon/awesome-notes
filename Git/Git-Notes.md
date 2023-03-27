@@ -5,7 +5,7 @@
 * **作者：** Nicolas·Lemon
 * **修改：** Nicolas·Lemon
 * **创建日期：** 2021.12.24
-* **修改日期：** 2022.08.15
+* **修改日期：** 2023.03.27
 
 # 创建项目
 
@@ -313,4 +313,26 @@ git ls-files -v | grep '^h\ '
 git ls-files -v | grep '^h\ ' | awk '{print $2}'
 # 全部取消忽略
 git ls-files -v | grep '^h' | awk '{print $2}' |xargs git update-index --no-assume-unchanged
+```
+
+## 迁移仓库
+
+假设有两个地址的git，其中a.git中有很多孤儿分支，b.git中只有一个master分支，b.git中是原仓库地址，里面之前有提交过一些代码记录，把b.git迁移到a.git中的一个新的孤儿分支中，迁移保留提交记录，并且迁移后a.git与b.git互不影响。
+
+```bash
+# 本地克隆 a.git 仓库
+git clone ${a.git URL}
+# 在a仓库中新建孤儿分支
+cd a
+git checkout --orphan ${new_branch}
+# 将 b.git 仓库添加为 a.git 的一个 remote
+git remote add b ${b.git URL}
+# 将 b.git 的 master 分支拉取到本地
+git fetch b master
+# 将 b.git 的 master 分支的提交记录合并到 ${new_branch} 分支上
+git merge b/master
+# 如果在合并时出现了 “refusing to merge unrelated histories” 的错误，可以使用以下命令解决：
+git merge b/master --allow-unrelated-histories
+# 将 ${new_branch} 分支推送到 a.git 上
+git push -u origin ${new_branch}
 ```
