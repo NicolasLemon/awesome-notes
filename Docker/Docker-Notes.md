@@ -3,7 +3,7 @@
 * **作者：** Nicolas·Lemon
 * **修改：** Nicolas·Lemon
 * **创建时间：** 2022.01.01
-* **修改时间：** 2022.09.22
+* **修改时间：** 2023.03.08
 
 ## 常用命令
 
@@ -321,7 +321,7 @@ gitlab/gitlab-ce
 3. 修改GitLab - SSH对应的端口配置
    
    ```sh
-   gitlab_rails[gitlab_shell_ssh_port]=${s_port}
+   gitlab_rails[gitlab_shell_ssh_port]=${ssh_port}
    ```
 
 4. 使配置重新生效，并重启GitLab服务
@@ -351,6 +351,115 @@ gitlab/gitlab-ce
   ```
   
   <img src="Docker-Notes.assets/image-20220103193410364.png" alt="image-20220103193410364" style="margin-left:30px;" />
+
+### Win10实例
+
+这里的network是用上面已经创建好的
+
+实例是在Win10上的本地Docker Desktop中本地部署的，并且新版的gitlab中的私有仓库是不允许`http`协议的，只能利用`ssh`协议，所以踩了一些坑，记录一下：
+
+这里的`9732`是网站指向打开的端口，`9922`是指向ssh的端口
+
+1. 运行容器
+   
+   ```bash
+   docker run \
+   -itd \
+   -p 9732:80 -p 9922:22 \
+   --network gitlab \
+   -v  D:/Daturm/DockerVolume/gitlab/etc:/etc/gitlab  \
+   -v  D:/Daturm/DockerVolume/gitlab/log:/var/log/gitlab \
+   -v  D:/Daturm/DockerVolume/gitlab/opt:/var/opt/gitlab \
+   --privileged=true \
+   --name gitlab \
+   gitlab/gitlab-ce
+   ```
+
+2. 配置容器
+   
+   成功运行容器后进入容器内部，配置网站访问ip和ssh的ip和端口
+   
+   ```bash
+   #进容器内部
+   docker exec -it gitlab /bin/bash
+    
+   #修改gitlab.rb
+   vi /etc/gitlab/gitlab.rb
+   
+   #gitlab访问地址，可以写域名。如果端口不写的话默认为80端口
+   external_url 'http://127.0.0.1'
+   #ssh主机ip
+   gitlab_rails['gitlab_ssh_host'] = '127.0.0.1'
+   #ssh连接端口
+   gitlab_rails['gitlab_shell_ssh_port'] = 9922
+   ```
+   
+   此处只让配置重新生效，不要重启容器
+   
+   ```bash
+   # 让配置生效
+   gitlab-ctl reconfigure
+   ```
+
+3. 修改gitlab网站的指向端口
+   
+   ```bash
+   vi /opt/gitlab/embedded/service/gitlab-rails/config/gitlab.yml
+   ```
+   
+   ![](Docker-Notes.assets/2023-03-28-16-51-35-image.png)
+
+4. 修改root密码
+   
+   此处也可以用上面的`初始密码`那步走，这里记录一下，是可以改root账户密码的
+   
+   ```bash
+   # 进入控制台
+   gitlab-rails console -e production
+    
+   # 查询id为1的用户，id为1的用户是超级管理员
+   user = User.where(id:1).first
+   # 修改密码为lhx123456
+   user.password='lhx123456'
+   # 保存
+   user.save!
+   # 退出控制台
+   exit
+   ```
+
+5. 重启gitlab
+   
+   ```bash
+   #重启gitlab 
+   gitlab-ctl restart
+   ```
+
+至此先锋配置就完成了
+
+下面讲下本地git配置ssh密钥的坑，之前配置了github的，所以此处是共用github的密钥，先把公钥（id_rsa.pub）中的内容复制添加到gitlab中，然后配置`~/.ssh`下的`config`，下面只看gitlab部分的就行，千万注意，User一定是`git`，之前我是填的gitlab中的用户名，导致就很坑，连不上gitlab
+
+```bash
+# ProxyCommand connect -S 127.0.0.1:10808 -a none %h %p
+
+Host github.com
+  User git
+  Port 443
+  Hostname ssh.github.com
+  # 注意修改路径为你的路径
+  IdentityFile "C:\Users\NicolasLemon\.ssh\id_rsa"
+  TCPKeepAlive yes
+
+Host gitlab
+  User git
+  Port 9922
+  HostName 127.0.0.1
+  PreferredAuthentications publickey
+  # 注意修改路径为你的路径
+  IdentityFile "C:\Users\NicolasLemon\.ssh\id_rsa"
+  TCPKeepAlive yes
+```
+
+
 
 ## Nginx
 
