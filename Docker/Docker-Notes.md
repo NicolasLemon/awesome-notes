@@ -3,7 +3,7 @@
 * **作者：** Nicolas·Lemon
 * **修改：** Nicolas·Lemon
 * **创建时间：** 2022.01.01
-* **修改时间：** 2023.03.08
+* **修改时间：** 2023.04.12
 
 ## 常用命令
 
@@ -243,6 +243,38 @@ docker run \
 
 <img src="Docker-Notes.assets/image-20220102014106133.png" alt="image-20220102014106133" style="margin-left:30px;" />
 
+## Redisinsight
+
+Redis可视化工具（Web）版
+
+### 运行容器
+
+以Win10举例，注意笔者运行的Redis也是上述Docker容器，因此会存在容器间网络通信的问题，所以笔者就在此直接以redis的网络运行该容器（`--network reddis`）
+
+```shell
+docker run \
+-itd \
+--network redis \
+-v D:/Daturm/DockerVolume/redisinsight:/db \
+-p 8001:8001 \
+--name redisinsight \
+redislabs/redisinsight:latest
+```
+
+### 连接Redis
+
+上述端口设置的是8001，因此打开浏览器：http://localhost:8001/
+
+此处需要注意的就是容器间网络的问题，查看redis网络，然后主机选择redis容器的ip就行
+
+```shell
+docker network inspect redis
+```
+
+![](Docker-Notes.assets/2023-04-12-17-17-41-image.png)
+
+![](Docker-Notes.assets/2023-04-12-17-18-34-image.png)
+
 ## Jenkins
 
 ### 创建网络
@@ -382,7 +414,7 @@ gitlab/gitlab-ce
    ```bash
    #进容器内部
    docker exec -it gitlab /bin/bash
-    
+   
    #修改gitlab.rb
    vi /etc/gitlab/gitlab.rb
    
@@ -416,7 +448,7 @@ gitlab/gitlab-ce
    ```bash
    # 进入控制台
    gitlab-rails console -e production
-    
+   
    # 查询id为1的用户，id为1的用户是超级管理员
    user = User.where(id:1).first
    # 修改密码为lhx123456
@@ -458,8 +490,6 @@ Host gitlab
   IdentityFile "C:\Users\NicolasLemon\.ssh\id_rsa"
   TCPKeepAlive yes
 ```
-
-
 
 ## Nginx
 
