@@ -1,4 +1,4 @@
-# 常用开发环境配置
+**常用开发环境配置**
 
 * **作者：** Nicolas·Lemon
 * **修改：** Nicolas·Lemon
@@ -7,98 +7,96 @@
 * 默认Linux系统是 **CentOS 7**
 * 默认Windows系统是 **Windows 10 x64**
 
-
-
-## JDK
+# JDK
 
 * 推荐版本：jdk1.8.0_201（jdk_8u201）
 
-### Linux
+## Linux
 
 * 权限不够就 **su root** 或 **sudo su root** 切换到root账号下
 
-#### 安装
+### 安装
 
 1. 查看系统是否自带JDK然后卸载（Linux系统自带Open JDK）
-
+   
    * 检查JDK版本（作者是已经安装好了，所以不必纠结此版本号就是1.8.0_201）
-
+     
      ```shell
      java -version
      ```
-
-     <img src="CommonEnvironments.assets/image-20210918090358278.png" alt="image-20210918090358278" style="margin-left:30px;" />
-
+     
+     <img src="README.assets/image-20210918090358278.png" alt="image-20210918090358278" style="margin-left:30px;" />
+   
    * 检测JDK安装包
-
+     
      ```shell
      rpm -qa | grep java
      ```
-
+   
    * 卸载Open JDK（删除上步找到的文件）
-
+     
      ```shell
      rpm -e --nodeps xxxxx
      ```
-
+     
      或者使用
      
      ```shell
      yum remove *openjdk*
      ```
-     
+   
    * 检查是否卸载完毕
-
+     
      ```shell
      rpm -qa | grep java
      ```
 
 2. 在 **/usr** 下新建java目录
-
+   
    * 新建文件夹
-
+     
      ```shell
      mkdir /usr/java
      ```
-
+   
    * 设置文件夹权限
-
+     
      ```shell
      chmod 777 -R /usr/java
      ```
 
 3. 将压缩包上传到 **/usr/java** 下，并解压
-
+   
    * 进入 **/usr/java** 目录
-
+     
      ```shell
      cd /usr/java
      ```
-
+   
    * 解压缩文件
-
+     
      ```shell
      tar -zxvf jdk-8u201-linux-x64.tar.gz
      ```
-
+   
    * 删除压缩包
-
+     
      ```shell
      rm -rf jdk-8u201-linux-x64.tar.gz
      ```
 
-#### 环境配置
+### 环境配置
 
 1. 将jdk环境添加到配置文件 **/etc/profile** 中
-
+   
    * 编辑配置文件 **/etc/profile**
-
+     
      ```shell
      vim /etc/profile
      ```
-
+   
    * 在末尾添加JDK环境变量
-
+     
      ```shell
      # JDK
      export JAVA_HOME=/usr/java/jdk1.8.0_201
@@ -106,107 +104,104 @@
      export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
      ```
      
-     <img src="CommonEnvironments.assets/image-20210918091938395.png" alt="image-20210918091938395" style="margin-left:30px;" />
+     <img src="README.assets/image-20210918091938395.png" alt="image-20210918091938395" style="margin-left:30px;" />
 
 2. 使配置文件 **/etc/profile** 重新生效
-
+   
    ```shell
    source /etc/profile
    ```
 
 3. 检查jdk环境是否配置好
-
+   
    ```shell
    java -version
    ```
    
-   <img src="CommonEnvironments.assets/image-20210918090358278.png" alt="image-20210918090358278" style="margin-left:30px;" />
+   <img src="README.assets/image-20210918090358278.png" alt="image-20210918090358278" style="margin-left:30px;" />
 
-### Windows
+## Windows
 
-#### 安装
+### 安装
 
 1. 直接运行安装包安装
-
+   
    * 安装JDK，修改安装目录为
-
+     
      ```shell
      D:\Program Files (x86)\Java\jdk1.8.0_201
      ```
-
+   
    * 安装JRE，修改安装目录为
-
+     
      ```shell
      D:\Program Files (x86)\Java\jre1.8.0_201
      ```
-
-   * **注：**JDK和JRE**不能安装**在相同的路径，按照上述配置即可
    
-     <img src="CommonEnvironments.assets/image-20210918092422740.png" alt="image-20210918090358278" style="margin-left:30px;" />
+   * **注：**JDK和JRE**不能安装**在相同的路径，按照上述配置即可
+     
+     <img src="README.assets/image-20210918092422740.png" alt="image-20210918090358278" style="margin-left:30px;" />
 
-#### 环境配置
+### 环境配置
 
 1. 新建系统变量 **JAVA_HOME**
-
+   
    * 变量名：JAVA_HOME
-
+   
    * 变量值：D:\Program Files (x86)\Java\jdk1.8.0_201
-
-     <img src="CommonEnvironments.assets/image-20210918104422656.png" alt="image-20210918104422656" style="margin-left:30px;" />
+     
+     <img src="README.assets/image-20210918104422656.png" alt="image-20210918104422656" style="margin-left:30px;" />
 
 2. 新建系统变量 **CLASSPATH**
-
+   
    * 变量名：CLASSPATH
-
+   
    * 变量值：.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar
-
-     <img src="CommonEnvironments.assets/image-20210918104444144.png" alt="image-20210918104444144" style="margin-left:30px;" />
+     
+     <img src="README.assets/image-20210918104444144.png" alt="image-20210918104444144" style="margin-left:30px;" />
 
 3. 编辑系统变量 **Path**
-
+   
    * 添加：%JAVA_HOME%\bin
-
+   
    * 添加：%JAVA_HOME%\jre\bin
-
-     <img src="CommonEnvironments.assets/image-20210918104610167.png" alt="image-20210918090358278" style="margin-left:30px;" />
+     
+     <img src="README.assets/image-20210918104610167.png" alt="image-20210918090358278" style="margin-left:30px;" />
 
 4. 运行CMD测试Java环境是否配置成功
-
+   
    * **注：** 三个命令都成功了，才表示jdk环境配置成功
-
-     ``` shell
+     
+     ```shell
      java
      ```
-   
-     <img src="CommonEnvironments.assets/image-20210917214547222.png" alt="image-20210918090358278" style="margin-left:30px;" />
-   
+     
+     <img src="README.assets/image-20210917214547222.png" alt="image-20210918090358278" style="margin-left:30px;" />
+     
      ```shell
      java -version
      ```
-   
-     <img src="CommonEnvironments.assets/image-20210917214003521.png" alt="image-20210918090358278" style="margin-left:30px;" />
-   
+     
+     <img src="README.assets/image-20210917214003521.png" alt="image-20210918090358278" style="margin-left:30px;" />
+     
      ```shell
      javac
      ```
-   
-     <img src="CommonEnvironments.assets/image-20210917214719024.png" alt="image-20210918090358278" style="margin-left:30px;" />
-   
+     
+     <img src="README.assets/image-20210917214719024.png" alt="image-20210918090358278" style="margin-left:30px;" />
 
-
-
-## MySQL
+# MySQL
 
 * 推荐版本：mysql_5.7.29
 
-### Linux
+## Linux
 
 * 权限不够就 **su root** 或 **sudo su root** 切换到root账号下
 
-#### 安装
+### 安装
 
 1. 检查系统是否有自带MySQL
-
+   
    ```shell
    rpm -qa | grep mysql
    # 如果有如下样子
@@ -216,7 +211,7 @@
    ```
 
 2. 检查系统是否有MariaDB
-
+   
    ```shell
    rpm -qa | grep mariadb 
    # 如果有如下样子
@@ -226,7 +221,7 @@
    ```
 
 3. 上传mysql_5.7.29_linux压缩包到 **/usr/upload** 下，并解压到 **/usr/local/** 下
-
+   
    ```shell
    # 如果没有upload文件夹就先新建一个
    mkdir /usr/upload
@@ -238,20 +233,20 @@
    ```
 
 4. 创建data文件夹
-
+   
    ```shell
    cd /usr/local/mysql
    mkdir -p data
    ```
 
 5. 创建用户组
-
+   
    ```shell
    groups mysql
    # 如果有如下，就不用再创建了
    # mysql : mysql
    ```
-
+   
    ```shell
    # 创建mysql用户组
    groupadd mysql
@@ -259,11 +254,11 @@
    ```
 
 6. 创建**my.cnf**配置文件，并将文件拷贝到 **/etc/** 下，如提示是否覆盖：y
-
+   
    ```shell
    vim my.cnf
    ```
-
+   
    ```text
    [client]
    default-character-set=utf8
@@ -283,13 +278,13 @@
    log-error=/usr/local/mysql/data/mysqld.log
    pid-file=/usr/local/mysql/data/mysqld.pid
    ```
-
+   
    ```shell
    cp my.cnf /etc/my.cnf
    ```
 
 7. 给MySQL用户进行赋权（**一定要赋权要不后面会出现很多错误**）
-
+   
    ```shell
    cd /usr/local/mysql
    chown -R mysql .
@@ -298,67 +293,67 @@
    ```
 
 8. 初始化MySQL
-
+   
    ```shell
    cd /usr/local/mysql/bin
    ./mysqld --initialize --user=mysql --basedir=/usr/local/mysql --datadir=/usr/local/mysql/data
    ```
-
+   
    > 若在**Ubuntu**系统下，可能会报错
-   >
-   > <img src="CommonEnvironments.assets/image-20210923091604049.png" alt="image-20210923091604049" style="margin-left:30px;" />
-   >
+   > 
+   > <img src="README.assets/image-20210923091604049.png" alt="image-20210923091604049" style="margin-left:30px;" />
+   > 
    > 则可以使用apt-get命令安装一下
-   >
+   > 
    > ```shell
    > apt-get install libaio1
    > ```
-   >
+   > 
    > 如果在下面的某些步骤中输入"**mysql**"，会提示**xxxxx.so**文件不存在的话，可搜索本地的**xxxxx.so**文件，然后创建相应的软连接即可
-   >
+   > 
    > ```shell
    > find / -name xxxxx.so
    > ln -s /xxx/xxx/xxxxx.so /usr/lib/xxxxx.so
    > ```
-
+   
    如果没啥问题，这里会生成初始密码，可能不会显示在公屏上所以需要查看 **/usr/local/mysql/data/mysqld.log**
-
+   
    ```shell
    less /usr/local/mysql/data/mysqld.log
    ```
-
-   <img src="CommonEnvironments.assets/image-20210918170430859.png" alt="image-20210918095439771" style="margin-left:30px;" />
-
+   
+   <img src="README.assets/image-20210918170430859.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
    记下此处的临时密码，等会初次登录数据库时会用到
 
 9. 生成MySQL密匙对
-
+   
    ```shell
    cd /usr/local/mysql/bin
    ./mysql_ssl_rsa_setup --datadir=/usr/local/mysql/data/mysql
    ```
-
-   <img src="CommonEnvironments.assets/image-20210918170741268.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20210918170741268.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
 10. 拷贝到 **support-files** 文件夹下
-
+    
     ```shell
     cd /usr/local/mysql/support-files
     cp mysql.server /etc/init.d/mysql
     ```
 
 11. 测试启动MySQL服务
-
+    
     ```shell
     cd /etc/init.d
     ./mysql start
     ./mysql stop
     ```
-
-    <img src="CommonEnvironments.assets/image-20210918171700123.png" alt="image-20210918095439771" style="margin-left:30px;" />
+    
+    <img src="README.assets/image-20210918171700123.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
 12. 创建软链接
-
+    
     ```shell
     ln -s /usr/local/mysql/bin/mysql /usr/bin
     # 以后就可以这样启动或者关闭mysql服务了
@@ -366,30 +361,30 @@
     service mysql stop
     ```
 
-#### 配置
+### 配置
 
 1. 利用临时密码登录MySQL数据库
-
+   
    ```shell
    # 如果没开启mysql服务，则先开启服务
    service mysql start
    mysql -uroot -p临时密码
    ```
-
+   
    如遇到下面显示的错误：
-
-   <img src="CommonEnvironments.assets/image-20210918172558524.png" alt="image-20210918172558524" style="margin-left:30px;" />
-
+   
+   <img src="README.assets/image-20210918172558524.png" alt="image-20210918172558524" style="margin-left:30px;" />
+   
    则可尝试：
-
+   
    ```shell
    mysql -uroot -h 127.0.0.1 -p临时密码
    ```
-
-   <img src="CommonEnvironments.assets/image-20210918172747917.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20210918172747917.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
 2. 修改密码并刷新权限
-
+   
    ```sql
    # MySQL运行界面下
    set password=password('密码');
@@ -397,15 +392,15 @@
    flush privileges;
    exit;
    ```
-
+   
    重启mysql服务
-
+   
    ```shell
    service mysql restart
    ```
 
 3. 开启远程链接和开机启动
-
+   
    ```shell
    cp /usr/local/mysql/support-files/mysql.server /etc/rc.d/init.d/mysqld
    chmod +x /etc/init.d/mysqld
@@ -413,61 +408,61 @@
    ```
 
 4. 查看服务列表
-
+   
    ```shell
    chkconfig --list
    ```
-
-   <img src="CommonEnvironments.assets/image-20210918174013666.png" alt="image-20210918095439771" style="margin-left:30px;" />
-
+   
+   <img src="README.assets/image-20210918174013666.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
    如图所示看到3、4、5的状态为**开**或者为**on**则表示成功
-
+   
    如果3、4、5的状态是**关**或者**off**则需要打开
-
+   
    ```shell
    chkconfig --level 345 mysqld on
    ```
 
 5. 查看配置是否生效
-
+   
    ```shell
    # 重启Linux系统
    reboot
    netstat -na | grep 3306
    ```
-
-   <img src="CommonEnvironments.assets/image-20210918174427280.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20210918174427280.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
 6. 查看字符集编码
-
+   
    ```shell
    mysql -uroot -p密码
    ```
-
-   <img src="CommonEnvironments.assets/image-20210918172747917.png" alt="image-20210918095439771" style="margin-left:30px;" />
-
+   
+   <img src="README.assets/image-20210918172747917.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
    ```sql
    show variables like "%char%";
    ```
-
+   
    确保字符集都是utf-8编码的
+   
+   <img src="README.assets/image-20210918180435348.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
-   <img src="CommonEnvironments.assets/image-20210918180435348.png" alt="image-20210918095439771" style="margin-left:30px;" />
+### 使用
 
-#### 使用
-
-##### 导入MySQL文件
+#### 导入MySQL文件
 
 如果是**没创建该数据库**的话，那就用**方法一**吧
 
 1. **方法一**
-
+   
    登录MySQL数据库，创建相应的数据库
-
+   
    ```shell
    mysql -uroot -p密码
    ```
-
+   
    ```sql
    create database `数据库名` character set utf8 collate utf8_general_ci;
    use 数据库名;
@@ -475,44 +470,44 @@
    ```
 
 2. **方法二**
-
+   
    ```shell
    mysql -uroot -p密码 数据库名 < /usr/upload/数据库名.sql
    ```
 
-##### 导出MySQL文件
+#### 导出MySQL文件
 
 ```shell
 cd /usr/local/mysql/bin
 ./mysqldump -uroot -p密码 数据库名 > /usr/upload/数据库名.sql
 ```
 
-### Windows
+## Windows
 
-#### 安装
+### 安装
 
 将mysql_5.7.29_windows压缩包解压到 **D:\Program Files (x86)** 下
 
-<img src="CommonEnvironments.assets/image-20210918181504682.png" alt="image-20210918095439771" style="margin-left:30px;" />
+<img src="README.assets/image-20210918181504682.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
-#### 环境配置
+### 环境配置
 
 1. 新建系统变量 **MYSQL_HOME**
-
+   
    * 变量名：MYSQL_HOME
-
+   
    * 变量值：D:\Program Files (x86)\mysql-5.7.29
-
-     <img src="CommonEnvironments.assets/image-20210918182042245.png" alt="image-20210918095439771" style="margin-left:30px;" />
+     
+     <img src="README.assets/image-20210918182042245.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
 2. 编辑系统变量 **Path**
-
+   
    * 新建：%MYSQL_HOME%\bin
-
-     <img src="CommonEnvironments.assets/image-20210918182305493.png" alt="image-20210918095439771" style="margin-left:30px;" />
+     
+     <img src="README.assets/image-20210918182305493.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
 3. 运行CMD测试MySQL环境变量是否配置成功
-
+   
    ```shell
    mysql
    # 若提示：
@@ -520,10 +515,10 @@ cd /usr/local/mysql/bin
    # 则表示环境变量配置成功
    ```
 
-#### MySQL配置
+### MySQL配置
 
 1. 在MySQL根目录下新建并编辑 **my.ini**
-
+   
    ```text
    [mysql]
    default-character-set=utf8
@@ -532,141 +527,137 @@ cd /usr/local/mysql/bin
    character-set-server=utf8
    default-storage-engine=INNODB
    ```
-
-   <img src="CommonEnvironments.assets/image-20210918181504682.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20210918181504682.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
 2. 初始化MySQL
-
+   
    管理员运行CMD
-
+   
    ```shell
    mysqld --initialize-insecure
    ```
-
+   
    如果出现没有出现报错信息，则证明data目录初始化没有问题，此时再查看MySQL根目录下已经有data目录生成
 
 3. 注册MySQL服务
-
+   
    管理员运行CMD
-
+   
    ```shell
    mysqld -install
    ```
-
-   <img src="CommonEnvironments.assets/image-20210918183716018.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20210918183716018.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
 4. 启动MySQL服务
-
+   
    管理员运行CMD
-
+   
    ```shell
    net start mysql
    ```
-
-   <img src="CommonEnvironments.assets/image-20210918183930964.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20210918183930964.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
 5. 修改默认账户密码
-
+   
    管理员运行CMD
-
+   
    ```shell
    mysqladmin -u root password root
    ```
-
+   
    此时，用户名是**root**，密码是**root**
-
+   
    如果想要修改已设置的密码
-
+   
    ```shell
    mysqladmin -u用户名 -p旧密码 password 新密码
    ```
-
+   
    **到这里，MySQL解压版就安装完毕了**
 
 6. 登录MySQL
-
+   
    管理员运行CMD
-
+   
    ```shell
    mysql -uroot -proot
    ```
-
+   
    左下角有显示==mysql>==，则表示登录成功
 
 7. 卸载MySQL
-
+   
    管理员运行CMD
-
+   
    ```shell
    net stop mysql
    mysqld -remove mysql
    ```
-
+   
    最后删除MySQL目录及相关的环境变量
 
-
-
-## Nginx
+# Nginx
 
 * 推荐版本：跟着官网走呗，官方下载地址：https://nginx.org/en/download.html
 
 * 选择**Stable version**下的下载
 
 * Linux下载中间的**nginx-x.xx.x**，Windows下载右边的**nginx/Windows-x.xx.x**
+  
+  ![image-20210917132038183](README.assets/image-20210917132038183.png)
 
-  ![image-20210917132038183](CommonEnvironments.assets/image-20210917132038183.png)
-
-### Linux
+## Linux
 
 * 权限不够就 **su root** 或 **sudo su root** 切换到root账号下
 
-#### 安装
+### 安装
 
 1. 查看系统是否安装了Nginx，若有，卸载旧版本的
-
+   
    * 查找Nginx文件
-
+     
      ```shell
      whereis nginx
      find / -name nginx
      ```
-
-     <img src="CommonEnvironments.assets/image-20210917193410624.png" alt="image-20210917193410624" style="zoom:93%;" />
-
+     
+     <img src="README.assets/image-20210917193410624.png" alt="image-20210917193410624" style="zoom:93%;" />
+   
    * 将上述找到的文件全删了
-
+     
      ```shell
      rm -rf xxxxx
      yum remove nginx
      ```
 
 2. 将下载好的压缩包上传到Linux服务器上，并解压（位置随意），例如上传到了 **/usr/upload** 中
-
-   *  如在/usr下没有upload文件夹就新建一个upload文件夹，然后再上传
-
+   
+   * 如在/usr下没有upload文件夹就新建一个upload文件夹，然后再上传
+     
      ```shell
      mkdir /usr/upload
      # 设置upload文件夹权限，不然上传不了文件
      chmod 777 -R /usr/upload
      ```
-     
 * 将Nginx压缩包解压出来
   
-  ``` shell
+  ```shell
      cd /usr/upload
      tar -zxvf nginx-1.20.1.tar.gz
   ```
-
 3. 安装和启动Nginx
-
+   
    * 进入解压后的文件夹
-
+     
      ```shell
      cd nginx-1.20.1
      ```
-
-   * 加载配置安装
    
+   * 加载配置安装
+     
      ```shell
      # 运行Nginx的配置文件
      ./configure
@@ -678,7 +669,7 @@ cd /usr/local/mysql/bin
      
      若`make`命令时报错：
      
-     <img src="CommonEnvironments.assets/70.png" alt="img" style="margin-left:30px;" />
+     <img src="README.assets/70.png" alt="img" style="margin-left:30px;" />
      
      则可先运行以下命令：
      
@@ -686,113 +677,112 @@ cd /usr/local/mysql/bin
      yum -y install pcre-devel
      yum -y install openssl openssl-devel
      ```
-     
-   * 寻找安装目录，找到安装目录是 **/usr/local/nginx**
    
+   * 寻找安装目录，找到安装目录是 **/usr/local/nginx**
+     
      ```shell
      whereis nginx
      ```
-     <img src="CommonEnvironments.assets/image-20210918113855305.png" alt="image-20210918090358278" style="margin-left:30px;" />
      
-   * 进入安装目录，启动Nginx
+     <img src="README.assets/image-20210918113855305.png" alt="image-20210918090358278" style="margin-left:30px;" />
    
+   * 进入安装目录，启动Nginx
+     
      ```shell
      cd /usr/local/nginx/sbin
      # 启动Nginx
      ./nginx
      ```
-   
+     
      此时启动完毕后没有提示，可以查看是否存在nginx进程
-   
+     
      ```shell
      ps -ef | grep nginx
      ```
-   
-     <img src="CommonEnvironments.assets/image-20210917223306154.png" alt="image-20210918090358278" style="margin-left:30px;" />
-   
+     
+     <img src="README.assets/image-20210917223306154.png" alt="image-20210918090358278" style="margin-left:30px;" />
+     
      或者，在浏览器地址栏中输入： **http://ip:80/** ，显示有Nginx欢迎页面，表示安装成功
      
-     <img src="CommonEnvironments.assets/image-20210923110425820.png" alt="image-20210923110425820" style="margin-left:30px;" />
-     
-   * 删除上传和解压的文件
+     <img src="README.assets/image-20210923110425820.png" alt="image-20210923110425820" style="margin-left:30px;" />
    
+   * 删除上传和解压的文件
+     
      ```shell
      rm -rf /usr/upload/*
      ```
-   
-     
 
-#### 环境配置
+### 环境配置
 
 1. 将nginx环境变量添加到配置文件 **/etc/profile** 中
-
+   
    * 编辑 **/etc/profile**
-
+     
      ```shell
      vim /etc/profile
      ```
-
+   
    * 在末尾添加Nginx环境变量
-
+     
      ```shell
      # Nginx
      export NGINX_HOME=/usr/local/nginx
      export PATH=$PATH:$NGINX_HOME/sbin
      ```
      
-     <img src="CommonEnvironments.assets/image-20210918094207987.png" alt="image-20210918090358278" style="margin-left:30px;" />
+     <img src="README.assets/image-20210918094207987.png" alt="image-20210918090358278" style="margin-left:30px;" />
 
 2. 使配置文件 **/etc/profile** 重新生效
-
+   
    ```shell
    source /etc/profile
    ```
 
 3. 测试Nginx环境是否配置好
-
+   
    ```shell
    nginx -V
    ```
    
-   <img src="CommonEnvironments.assets/image-20210918095017123.png" alt="image-20210918090358278" style="margin-left:30px;" />
+   <img src="README.assets/image-20210918095017123.png" alt="image-20210918090358278" style="margin-left:30px;" />
 
-#### 开机自启
+### 开机自启
 
-##### CentOS
+#### CentOS
 
 * 修改 **/etc/rc.d/rc.local** 文件，在末尾添加Nginx的启动路径（**/usr/local/nginx/sbin/nginx**）
-
+  
   ```shell
   vim /etc/rc.d/rc.local
   ```
   
-  <img src="CommonEnvironments.assets/image-20210918095245730.png" alt="image-20210918095245730" style="margin-left:30px;" />
-  
-* 使 **/etc/rc.d/rc.local** 变成可执行文件
+  <img src="README.assets/image-20210918095245730.png" alt="image-20210918095245730" style="margin-left:30px;" />
 
+* 使 **/etc/rc.d/rc.local** 变成可执行文件
+  
   ```shell
   chmod +x /etc/rc.d/rc.local
   ```
 
 * 使用**reboot**命令重启Linux系统后，查看Nginx是否成功的自启动了
-
+  
   ```shell
   reboot
   ps -ef | grep nginx
   ```
   
-  <img src="CommonEnvironments.assets/image-20210918095439771.png" alt="image-20210918095439771" style="margin-left:30px;" />
+  <img src="README.assets/image-20210918095439771.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
-##### Ubuntu
+#### Ubuntu
 
 * 建立服务文件
-
+  
   ```shell
   vim /usr/lib/systemd/system/nginx.service
   ```
 
 * 添加如下内容
-
+  
   ```bash
   # 描述服务
   Description=Nginx - High Performance Web Server
@@ -812,9 +802,9 @@ cd /usr/local/mysql/bin
   [Install]
   WantedBy=multi-user.target
   ```
-
+  
   相关命令
-
+  
   ```shell
   # 开启开机自启
   systemctl enable nginx.service
@@ -832,47 +822,46 @@ cd /usr/local/mysql/bin
   systemctl list-units --type=service
   ```
 
-
-### Windows
+## Windows
 
 #### 安装
 
 * 直接解压缩压缩包就行
-
+  
   运行Nginx后，在浏览器地址栏中输入： **http://localhost:80/** ，显示有Nginx欢迎页面
+  
+  <img src="README.assets/image-20210917194636841.png" alt="image-20210917194636841" style="margin-left:30px;" />
 
-  <img src="CommonEnvironments.assets/image-20210917194636841.png" alt="image-20210917194636841" style="margin-left:30px;" />
-
-#### 环境配置
+### 环境配置
 
 1. 新建系统变量 **NGINX_HOME**
-
+   
    * 变量名：NGINX_HOME
-
+   
    * 变量值：D:\Program Files (x86)\Nginx-1.20.1
-
-     <img src="CommonEnvironments.assets/image-20210918133923574.png" alt="image-20210918095439771" style="margin-left:30px;" />
+     
+     <img src="README.assets/image-20210918133923574.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
 2. 编辑系统变量 **Path**
-
+   
    * 添加：%NGINX_HOME%
-
-     <img src="CommonEnvironments.assets/image-20210918134021589.png" alt="image-20210918095439771" style="margin-left:30px;" />
+     
+     <img src="README.assets/image-20210918134021589.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
 3. 运行CMD测试Nginx环境是否配置成功
-
+   
    ```shell
    nginx -V
    ```
+   
+   <img src="README.assets/image-20210917215310930.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
-   <img src="CommonEnvironments.assets/image-20210917215310930.png" alt="image-20210918095439771" style="margin-left:30px;" />
+## 常用命令
 
-### 常用命令
-
-#### Nginx
+### Nginx
 
 * **注：** 启动Nginx后，修改其conf文件，需重新加载配置文件（**nginx -s reload**）
-
+  
   ```shell
   # 启动
   nginx
@@ -886,10 +875,10 @@ cd /usr/local/mysql/bin
   ps -ef | grep nginx
   ```
 
-#### Firewall
+### Firewall
 
 * 几个常用的防火墙命令
-
+  
   ```shell
   # 查看火墙状态
   systemctl status firewalld
@@ -911,38 +900,37 @@ cd /usr/local/mysql/bin
   firewall-cmd --zone=public --remove-port=6666/tcp --permanent 
   ```
 
-### 使用Nginx
+## 使用Nginx
 
 * Nginx的配置文件地址是 **/usr/local/nginx/conf/nginx.conf**
 
 * 每次修改完nginx配置文件后，**都需要**重新加载配置文件（**nginx -s reload**）
 
 * 若没配置全局nginx环境变量，则需先进入 **/usr/local/nginx/sbin** 目录下，再使用 **./nginx xxxxx** 等类型的命令
-
+  
   ```shell
   cd /usr/local/nginx/sbin
   ./nginx -s reload
   ```
 
-
-#### 端口转发
+### 端口转发
 
 * **前景：** 公网ip只开放一个6668端口，但是Linux服务器上部署了多个项目，此时就需要使用Nginx进行端口转发，共用该6668端口
+
 * 假设**6668**端口是共用对外的，Linux上在**2233**端口和**8001**端口上部署了项目
-
 1. 检查防火墙状态，如果防火墙是关闭的，就打开防火墙
-
+   
    ```shell
    # 查看火墙状态
    systemctl status firewalld
    # 开启火墙服务
    systemctl start firewalld
    ```
-
-   <img src="CommonEnvironments.assets/image-20210918135035303.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20210918135035303.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
 2. 开放需要开放的端口，并重启防火墙，使配置生效
-
+   
    ```shell
    # 列出public域中开放的端口
    firewall-cmd --zone=public --list-ports
@@ -953,23 +941,23 @@ cd /usr/local/mysql/bin
    # 重启启火墙服务
    systemctl restart firewalld
    ```
-
-   <img src="CommonEnvironments.assets/image-20210918135246333.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20210918135246333.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
 3. 修改Nginx配置文件
-
+   
    * 编辑Nginx配置文件
-
+     
      ```shell
      vim /usr/local/nginx/conf/nginx.conf
      ```
-
+   
    * 将Nginx的**server**端口改成对外的6668端口
-
-     <img src="CommonEnvironments.assets/image-20210918135618376.png" alt="image-20210918095439771" style="margin-left:30px;" />
-
+     
+     <img src="README.assets/image-20210918135618376.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
    * 添加端口转发
-
+     
      ```java
      location /访问别名/ {
          # root   Demo;
@@ -981,82 +969,80 @@ cd /usr/local/mysql/bin
      }
      ```
      
-     <img src="CommonEnvironments.assets/image-20210918140350400.png" alt="image-20210918095439771" style="margin-left:30px;" />
+     <img src="README.assets/image-20210918140350400.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
 4. 重新加载Nginx配置文件
-
+   
    * 方式一（通用）
-
+     
      ```shell
      cd /usr/local/nginx/sbin
      ./nginx -s reload
      ```
-
+   
    * 方式二（全局配置了Nginx环境变量）
-
+     
      ```shell
      nginx -s reload
      ```
+     
+     <img src="README.assets/image-20210918141255451.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
-     <img src="CommonEnvironments.assets/image-20210918141255451.png" alt="image-20210918095439771" style="margin-left:30px;" />
-
-
-
-## Maven
+# Maven
 
 * 推荐版本：跟着官网走呗，官方下载地址：**https://maven.apache.org/download.cgi**
 
-### Windows
+## Windows
 
-#### 安装
+### 安装
 
 1. 下载【**Binary zip archive**】版本的
-
+   
    **Tip：** 作者下载Maven的时候还是3.8.1，所以下面不用纠结版本号，根据自己下载的版本配置即可
-
-   <img src="CommonEnvironments.assets/image-20210918003049523.png" alt="image-20210918003049523" style="zoom:80%;" />
+   
+   <img src="README.assets/image-20210918003049523.png" alt="image-20210918003049523" style="zoom:80%;" />
 
 2. 在自己的安装目录下，新建一个Maven文件夹，例如**D:\Program Files (x86)\Maven**
-
+   
    * 在Maven文件夹下解压**apache-maven-x.x.x-bin.zip**
-
+   
    * 在Maven文件夹下新建**repository**文件夹，结构如下：
+     
+     ![image-20210918004306547](README.assets/image-20210918004306547.png)
 
-     ![image-20210918004306547](CommonEnvironments.assets/image-20210918004306547.png)
-
-#### 环境配置
+### 环境配置
 
 1. 新建系统变量 **MAVEN_HOME**
-
+   
    * 变量名：MAVEN_HOME
-
+   
    * 变量值：D:\Program Files (x86)\Maven\apache-maven-3.8.1
-
-     <img src="CommonEnvironments.assets/image-20210918141835495.png" alt="image-20210918095439771" style="margin-left:30px;" />
+     
+     <img src="README.assets/image-20210918141835495.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
 2. 修改系统变量 **Path**
-
+   
    * 添加：%MAVEN_HOME%\bin
-
-     <img src="CommonEnvironments.assets/image-20210918141924859.png" alt="image-20210918095439771" style="margin-left:30px;" />
+     
+     <img src="README.assets/image-20210918141924859.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
 3. 运行CMD测试Maven环境是否配置成功
-
-   <img src="CommonEnvironments.assets/image-20210918005542852.png" alt="image-20210918005542852" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20210918005542852.png" alt="image-20210918005542852" style="margin-left:30px;" />
 
 4. 修改Maven配置文件
-
+   
    * 编辑**D:\Program Files (x86)\Maven\apache-maven-3.8.1\conf\settings.xml**
-
+   
    * 下面贴出自用整个xml，只需要修改maven本地仓库地址即可
-
+     
      ```xml
      <!-- 本地Maven仓库地址 -->
      <localRepository>D:\Program Files (x86)\Maven\repository</localRepository>
      ```
-
+   
    * 完整settings.xml如下，根据自身的maven本地仓库地址，去修改上面那句代码中的地址即可
-
+     
      ```xml
      <?xml version="1.0" encoding="UTF-8"?>
      
@@ -1352,46 +1338,44 @@ cd /usr/local/mysql/bin
      ```
 
 5. 运行CMD，输入**mvn help:system**测试，配置成功则本地仓库**D:\Program Files (x86)\Maven\repository**中会出现一些文件
-
-   <img src="CommonEnvironments.assets/image-20210918010925999.png" alt="image-20210918095439771" style="margin-left:30px;" />
-
+   
+   <img src="README.assets/image-20210918010925999.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
    * **至此，Maven环境，配置完毕**
 
-#### Intellij IDEA配置
+### Intellij IDEA配置
 
 * 在**Intellij IDEA**设置中如下图所配置本地maven环境
+  
+  <img src="README.assets/image-20210918011351852.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
-  <img src="CommonEnvironments.assets/image-20210918011351852.png" alt="image-20210918095439771" style="margin-left:30px;" />
+# SVN - 服务端
 
-
-
-## SVN - 服务端
-
-### Linux
+## Linux
 
 * 权限不够就 **su root** 或 **sudo su root** 切换到root账号下
 * 此处的Linux系统是 **Ubuntu 9.3.0-17ubuntu1**
 
-#### 安装
+### 安装
 
 1. 查看系统是否安装了SVN，若有，卸载旧版本的
-
+   
    * 产看SVN版本号，若有显示，则卸载旧版本的
-
+     
      ```shell
      svn --version
      ```
-
-     <img src="CommonEnvironments.assets/image-20210918143439415.png" alt="image-20210918095439771" style="margin-left:30px;" />
-
+     
+     <img src="README.assets/image-20210918143439415.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
    * 卸载旧版SVN
-
+     
      ```shell
      apt-get remove --purge subversion
      ```
 
 2. 安装svnserve
-
+   
    ```shell
    # 安装之前可先更新一下apt-get
    apt-get update
@@ -1400,11 +1384,11 @@ cd /usr/local/mysql/bin
    # 查看svnserve是否安装成功
    svnserve --version
    ```
-
-   <img src="CommonEnvironments.assets/image-20210918143928584.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20210918143928584.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
 3. 创建SVN仓库，仓库名为**AIoT**
-
+   
    ```shell
    # 新建SVN仓库目录
    mkdir -p /usr/svn/AIoT
@@ -1414,56 +1398,56 @@ cd /usr/local/mysql/bin
    svnadmin create /usr/svn/AIoT
    ```
    
-   <img src="CommonEnvironments.assets/image-20210918152156175.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   <img src="README.assets/image-20210918152156175.png" alt="image-20210918095439771" style="margin-left:30px;" />
    
    ```shell
    # 对db进入权限设置
    chmod 777 -R /usr/svn/AIoT/db
    ```
 
-#### 基本配置
+### 基本配置
 
 1. 修改SVN的配置文件，配置文件是**SVN仓库**下的**conf/svnserve.conf**
-
+   
    ```shell
    # 进入SVN仓库下的conf文件夹
    cd /usr/svn/AIoT/conf
    ```
-
-   <img src="CommonEnvironments.assets/image-20210918153438750.png" alt="image-20210918095439771" style="margin-left:30px;" />
-
+   
+   <img src="README.assets/image-20210918153438750.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
    ```shell
    # 编辑配置文件
    vim svnserve.conf
    ```
-
-   <img src="CommonEnvironments.assets/image-20210918155033368.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20210918155033368.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
 2. 添加访问用户
-
+   
    ```shell
    vim passwd
    ```
-
-   <img src="CommonEnvironments.assets/image-20210918160008480.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20210918160008480.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
 3. 设置权限分组
-
+   
    ```shell
    vim authz
    ```
+   
+   <img src="README.assets/image-20210918160534558.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
-   <img src="CommonEnvironments.assets/image-20210918160534558.png" alt="image-20210918095439771" style="margin-left:30px;" />
-
-#### 分组权限
+### 分组权限
 
 ```shell
 vim /usr/svn/AIoT/conf/authz
 ```
 
-<img src="CommonEnvironments.assets/image-20220120152620080.png" alt="image-20220120152620080" style="margin-left:30px;" />
+<img src="README.assets/image-20220120152620080.png" alt="image-20220120152620080" style="margin-left:30px;" />
 
-#### 启动
+### 启动
 
 ```shell
 # 启动SVN服务器
@@ -1475,20 +1459,20 @@ svnserve -d -r /usr/svn --listen-port 3090
 ps -ef | grep svnserve
 ```
 
-<img src="CommonEnvironments.assets/image-20210918161157738.png" alt="image-20210918161157738" />
+<img src="README.assets/image-20210918161157738.png" alt="image-20210918161157738" />
 
-#### 开机自启
+### 开机自启
 
-###### Ubuntu
+##### Ubuntu
 
 * 建立服务文件
-
+  
   ```shell
   vim /usr/lib/systemd/system/svn.service
   ```
 
 * 添加如下内容
-
+  
   ```bash
   # 描述服务
   Description=SVN
@@ -1508,9 +1492,9 @@ ps -ef | grep svnserve
   [Install]
   WantedBy=multi-user.target
   ```
-
+  
   相关命令
-
+  
   ```shell
   # 开启开机自启
   systemctl enable svn.service
@@ -1528,32 +1512,32 @@ ps -ef | grep svnserve
   systemctl list-units --type=service
   ```
 
-### 连接服务端
+## 连接服务端
 
 1. 下载并安装小乌龟
-
-   <img src="CommonEnvironments.assets/image-20210918161801457.png" alt="image-20210918095439771" style="margin-left:30px;" />
-
+   
+   <img src="README.assets/image-20210918161801457.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
    **下载地址：**
-
+   
    https://mirrors.gigenet.com/OSDN//storage/g/t/to/tortoisesvn/1.14.1/Application/TortoiseSVN-1.14.1.29085-x64-svn-1.14.1.msi
-
+   
    安装完成后，任意文件夹下右键会有如图所示，则表示安装成功
-
-   <img src="CommonEnvironments.assets/image-20210918162324832.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20210918162324832.png" alt="image-20210918095439771" style="margin-left:30px;" />
 
 2. 连接到SVN服务端仓库
-
+   
    * 在任意地方右键，选择 **TortoiseSVN** -> **Repo-browser**
-
-     <img src="CommonEnvironments.assets/image-20210918162743673.png" alt="image-20210918095439771" style="margin-left:30px;" />
-
+     
+     <img src="README.assets/image-20210918162743673.png" alt="image-20210918095439771" style="margin-left:30px;" />
+   
    * 输入 **svn://ip:3090/AIoT**，点击OK
-
-     <img src="CommonEnvironments.assets/image-20210918163140411.png" alt="image-20210918095439771" style="margin-left:30px;" />
+     
+     <img src="README.assets/image-20210918163140411.png" alt="image-20210918095439771" style="margin-left:30px;" />
    
    * 输入用户名和密码即可访问成功
-   
-     <img src="CommonEnvironments.assets/image-20210918163431283.png" alt="image-20210918095439771" style="margin-left:30px;" />
-   
-     <img src="CommonEnvironments.assets/image-20210918163721890.png" alt="image-20210918095439771" style="margin-left:30px;" />
+     
+     <img src="README.assets/image-20210918163431283.png" alt="image-20210918095439771" style="margin-left:30px;" />
+     
+     <img src="README.assets/image-20210918163721890.png" alt="image-20210918095439771" style="margin-left:30px;" />

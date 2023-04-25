@@ -162,7 +162,7 @@
   git remote
   ```
   
-  <img src="Git-Notes.assets/image-20220104122456104.png" alt="image-20220104122456104" style="margin-left:30px;" />
+  <img src="README.assets/image-20220104122456104.png" alt="image-20220104122456104" style="margin-left:30px;" />
   
   ```bash
   # 更新指向的远程仓库
@@ -189,7 +189,7 @@ macOS系统下默认的`.ssh`的目录是 **~/.ssh** ，基本上也不用去改
    cd ~/.ssh
    ```
    
-   <img src="Git-Notes.assets/image-20220112205030288.png" alt="image-20220112205030288" style="margin-left:30px;" />
+   <img src="README.assets/image-20220112205030288.png" alt="image-20220112205030288" style="margin-left:30px;" />
 
 3. 生成密钥
    
@@ -199,13 +199,13 @@ macOS系统下默认的`.ssh`的目录是 **~/.ssh** ，基本上也不用去改
 
 4. 根据提示，一路三个回车即可，当然需要设置密码的，就设置
    
-   <img src="Git-Notes.assets/image-20220112205804489.png" alt="image-20220112205804489" style="margin-left:30px;" />
+   <img src="README.assets/image-20220112205804489.png" alt="image-20220112205804489" style="margin-left:30px;" />
 
 5. 然后就可以在 **~/.ssh** 目录下见到两个文件
    
    `id_rsa.pub`是公钥，`id.rsa`是私钥（这个要自己 **保密** 哦）
    
-   <img src="Git-Notes.assets/image-20220112205935113.png" alt="image-20220112205935113" style="margin-left:30px;" />
+   <img src="README.assets/image-20220112205935113.png" alt="image-20220112205935113" style="margin-left:30px;" />
 
 6. 测试连接
    

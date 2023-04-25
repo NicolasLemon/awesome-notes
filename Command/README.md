@@ -22,7 +22,7 @@ attrib ${file_path}|${file} [+s][+h][+a][+r]
 attrib ${file_path}|${file} [-s][-h][-a][-r]
 ```
 
-![](Command-Notes.assets/2022-11-17-22-44-59-image.png)
+![](README.assets/2022-11-17-22-44-59-image.png)
 
 ## icacls命令
 

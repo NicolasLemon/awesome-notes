@@ -236,7 +236,7 @@ docker run \
 
 Redis可视化工具（Web）版
 
-以Win10举例，注意笔者运行的Redis也是上述Docker容器，因此会存在容器间网络通信的问题，所以笔者就在此直接以redis的网络运行该容器（`--network reddis`）
+以Win10举例，注意笔者运行的Redis也是上述Docker容器，因此会存在容器间网络通信的问题，所以笔者就在此直接以公共网络运行该容器（`--network localnet`）
 
 ```bash
 docker run \

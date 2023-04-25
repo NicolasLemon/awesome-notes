@@ -31,7 +31,7 @@
   
   `超密登录` -> `安全` -> `广域网访问设置` -> `ONT访问控制配置` 
   
-  ![](OpticalNetworkUnit.assets/2022-10-09-10-43-09-image.png)
+  ![](README.assets/2022-10-09-10-43-09-image.png)
 
 ## Telnet大法
 
@@ -53,13 +53,13 @@ su
 shell
 ```
 
-![](OpticalNetworkUnit.assets/2022-10-09-11-01-20-image.png)
+![](README.assets/2022-10-09-11-01-20-image.png)
 
 ### 获取超密
 
 用户配置文件在`/mnt/jffs2`下的`hw_ctree.xml`
 
-![](OpticalNetworkUnit.assets/2022-10-09-11-06-56-image.png)
+![](README.assets/2022-10-09-11-06-56-image.png)
 
 ```shell
 cd /mnt/jffs2/
@@ -79,13 +79,13 @@ grep WebUserInfoInstance mycfg.xml
 
 如果手边有u盘，可以将u盘插入光猫的usb口，然后将解密后的光猫配置文件`mycfg.xml`复制到u盘里，然后再在电脑中修改，会方便一点。
 
-![](OpticalNetworkUnit.assets/2022-10-09-14-20-20-image.png)
+![](README.assets/2022-10-09-14-20-20-image.png)
 
 ```shell
 cp /mnt/jffs2/mycfg.xml /mnt/usb1_1/mycfg.xml
 ```
 
-![](OpticalNetworkUnit.assets/2022-10-09-14-22-26-image.png)
+![](README.assets/2022-10-09-14-22-26-image.png)
 
 如果手边没有u盘，又或者是不想拷贝出来，那就用`vi`命令改吧
 
@@ -95,7 +95,7 @@ vi /mnt/jffs2/mycfg.xml
 
 输入`/TR069`查找关键字，`n`查找下一个，找到相关的地方，把前面的`Enable`改为`0`
 
-![](OpticalNetworkUnit.assets/2022-10-09-14-38-49-image.png)
+![](README.assets/2022-10-09-14-38-49-image.png)
 
 接下来就是把解密修改后的配置文件重新加密，并覆盖原先的配置文件后，重启光猫即可
 
@@ -111,20 +111,20 @@ cp -f mycfg.xml.gz hw_ctree.xml
 rm -rf mycfg.xml.gz
 ```
 
-![](OpticalNetworkUnit.assets/2022-10-09-14-52-06-image.png)
+![](README.assets/2022-10-09-14-52-06-image.png)
 
-![](OpticalNetworkUnit.assets/2022-10-09-14-55-57-image.png)
+![](README.assets/2022-10-09-14-55-57-image.png)
 
 **重启光猫即可**
 
-![](OpticalNetworkUnit.assets/2022-10-09-14-59-47-image.png)
+![](README.assets/2022-10-09-14-59-47-image.png)
 
 不放心的话，可以在`网络` -> `ITMS 服务器` -> `远程管理`中关闭周期上报
 
-![](OpticalNetworkUnit.assets/2022-10-09-15-02-09-image.png)
+![](README.assets/2022-10-09-15-02-09-image.png)
 
 ### 修改设备连接限制
 
 可参考`禁止Tr069使能`部分的操作，输入`/TotalTerminalNumber`进行关键字查找，其余部分同`禁止Tr069使能`操作
 
-![](OpticalNetworkUnit.assets/2022-10-09-14-42-53-image.png)
+![](README.assets/2022-10-09-14-42-53-image.png)

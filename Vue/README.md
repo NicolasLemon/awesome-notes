@@ -15,7 +15,7 @@
 
 * @vue/cli：`v4.5.17`
 
-<img title="" src="Vue.assets/2022-07-17-16-01-14-image.png" alt="" data-align="inline">
+<img title="" src="README.assets/2022-07-17-16-01-14-image.png" alt="" data-align="inline">
 
 ### 配置
 
@@ -25,7 +25,7 @@
 
 * 在安装目录下新建`node_cache`与`node_global`两个文件夹
   
-  ![](Vue.assets/2022-07-17-16-15-48-image.png)
+  ![](README.assets/2022-07-17-16-15-48-image.png)
 
 * 设置node地址
   
@@ -40,7 +40,7 @@
   npm config get cache
   ```
   
-  ![](Vue.assets/2022-07-17-16-22-16-image.png)
+  ![](README.assets/2022-07-17-16-22-16-image.png)
 
 * 添加环境变量
   
@@ -50,7 +50,7 @@
   D:\Program Files (x86)\nodejs\node_global
   ```
   
-  ![](Vue.assets/2022-07-17-16-25-51-image.png)
+  ![](README.assets/2022-07-17-16-25-51-image.png)
 
 #### 淘宝镜像
 
@@ -61,7 +61,7 @@ npm config get registry
 npm config set registry http://registry.npm.taobao.org/
 ```
 
-![](Vue.assets/2022-07-17-16-09-46-image.png)
+![](README.assets/2022-07-17-16-09-46-image.png)
 
 #### Vue脚手架
 
@@ -69,7 +69,7 @@ npm config set registry http://registry.npm.taobao.org/
 npm install -g @vue/cli@4.5.17
 ```
 
-![](Vue.assets/2022-07-17-16-28-22-image.png)
+![](README.assets/2022-07-17-16-28-22-image.png)
 
 ## 响应式布局
 
@@ -106,7 +106,7 @@ npm install -g @vue/cli@4.5.17
   import "lib-flexible/flexible.js";
   ```
   
-  <img title="" src="Vue.assets/2022-07-17-16-37-02-image.png" alt="" data-align="inline">
+  <img title="" src="README.assets/2022-07-17-16-37-02-image.png" alt="" data-align="inline">
 
 #### 配置
 
@@ -134,7 +134,7 @@ npm install -g @vue/cli@4.5.17
   }
   ```
   
-  ![](Vue.assets/2022-07-17-16-36-05-image.png)
+  ![](README.assets/2022-07-17-16-36-05-image.png)
 
 ### postcss-plugin-px2rem
 
@@ -176,7 +176,7 @@ npm install -g @vue/cli@4.5.17
   }
   ```
   
-  ![](Vue.assets/2022-07-17-16-34-54-image.png)
+  ![](README.assets/2022-07-17-16-34-54-image.png)
 
 ## 视频播放插件
 
@@ -301,7 +301,7 @@ export default {
 
 若使用了上面的flexible插件配置了响应式布局的话，而且播放器的大小又有控制在比较小的尺寸的话，有可能播放控制器的宽度会超过播放器的宽度，则需要在指定`style`中指定`font-size`
 
-![](Vue.assets/2022-07-21-10-49-52-image.png)
+![](README.assets/2022-07-21-10-49-52-image.png)
 
 ```v
 <style lang="scss" scoped>
@@ -327,17 +327,17 @@ export default {
 
 如果在`style`中配置了`scoped`属性，那么**Vue**在渲染的时候就会自动加上一些id，会导致修改一些插件自带的`style`不起作用
 
-![](Vue.assets/2022-07-29-09-47-30-image.png)
+![](README.assets/2022-07-29-09-47-30-image.png)
 
 需要用到`/deep/`深度修改，如果`/deep/`在编译时报错，请使用`::v-deep`
 
-![](Vue.assets/2022-07-29-09-49-13-image.png)
+![](README.assets/2022-07-29-09-49-13-image.png)
 
 ## 动态挂载组件
 
 如果需要在代码中动态使用组件，例如在地图组件上需要动态展示不同的弹框内容：
 
-![](Vue.assets/2022-07-29-09-14-58-image.png)
+![](README.assets/2022-07-29-09-14-58-image.png)
 
 ```v
 <template>
@@ -474,7 +474,7 @@ beforeCreate() {
 }
 ```
 
-![](Vue.assets/2022-07-29-09-52-06-image.png)
+![](README.assets/2022-07-29-09-52-06-image.png)
 
 ##### 触发
 
@@ -515,13 +515,13 @@ export default {
 
 #### Vuex
 
-![](Vue.assets/2022-07-29-10-02-42-image.png)
+![](README.assets/2022-07-29-10-02-42-image.png)
 
 **注意：** 在代码中可以直接操作`mutations`，但是`mutations`中不写逻辑，逻辑写在`actions`中
 
 ##### 模块化
 
-![](Vue.assets/2022-07-29-10-05-38-image.png)
+![](README.assets/2022-07-29-10-05-38-image.png)
 
 `index.js`
 
@@ -609,7 +609,7 @@ export default {
 
 `public/index.html`
 
-![](Vue.assets/2022-07-29-10-28-35-image.png)
+![](README.assets/2022-07-29-10-28-35-image.png)
 
 #### 使用
 

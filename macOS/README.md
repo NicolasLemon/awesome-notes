@@ -1,27 +1,23 @@
-# macOS随笔
+**macOS随笔**
 
 * **作者：** Nicolas·Lemon
 * **修改：** Nicolas·Lemon
 * **创建日期：** 2022.01.14
 * **修改日期：** 2022.01.18
 
+# 涉及到的系统版本
 
+## macOS 10.14.3
 
-## 涉及到的系统版本
+<img src="README.assets/image-20220114232927837.png" alt="image-20220114232927837" style="margin-left:30px;" />
 
-### macOS 10.14.3
-
-<img src="macOS.assets/image-20220114232927837.png" alt="image-20220114232927837" style="margin-left:30px;" />
-
-
-
-## 烦人的.DS_Store
+# 烦人的.DS_Store
 
 `DS_Store`，英文全称是 Desktop Services Store（桌面服务存储），开头的 DS 是 Desktop Services（桌面服务） 的缩写。它是一种由macOS系统自动创建的隐藏文件，存在于每一个用「访达」打开过的文件夹下面。
 
 虽然不能在「访达」中直接看到它，但是通过「终端」App，可以输入`ls -la`命令列出。同时，通过`file`命令，可以显示出其文件类型，即”Desktop Services Store“。
 
-<img src="macOS.assets/image-20220114234652652.png" alt="image-20220114234652652" style="margin-left:30px;" />
+<img src="README.assets/image-20220114234652652.png" alt="image-20220114234652652" style="margin-left:30px;" />
 
 `DS_Store`文件的主要作用，是存储当前文件夹在桌面显示相关方面的一些自定义属性，包括文件图标的位置、文件夹上次打开时窗口的大小、展现形式和位置等。这有助于保留为特定文件夹配置的设置，例如，将桌面文件夹设置为查看按名称排序的图标，同时将下载文件夹配置为将文件显示为列表并按日期排序，最近修改的先显示，又或者是例如文件的图标位置或者是背景色的选择。
 
@@ -29,7 +25,7 @@
 
 但是，再上传某些文件夹的时候，或者打压缩包的时候，并不希望这东西出现在里面，例如`git`与`zip压缩`。
 
-### 一劳永逸
+## 一劳永逸
 
 * 涉及到的系统版本：`10.14.3`
 
@@ -42,7 +38,7 @@ sudo find / -name ".DS_Store" -depth -exec rm {} \;
 defaults write com.apple.desktopservices DSDontWriteNetworkStores true
 ```
 
-### 全局.gitignore
+## 全局.gitignore
 
 * 涉及到的系统版本：`10.14.3`
 
@@ -54,9 +50,7 @@ echo "*.DS_Store" >> ~/.gitignore
 git config --global core.excludesfile ~/.gitignore
 ```
 
-
-
-## 其他用户登录选项
+# 其他用户登录选项
 
 * 涉及到的系统版本：`10.14.3`
 
@@ -69,74 +63,69 @@ sudo defaults write /Library/Preferences/com.apple.loginwindow SHOWOTHERUSERS_MA
 sudo defaults write /Library/Preferences/com.apple.loginwindow SHOWOTHERUSERS_MANAGED -bool TRUE
 ```
 
-
-
-## 解除文件或APP锁定
+# 解除文件或APP锁定
 
 * 涉及到的系统版本：`10.14.3`
 
 有些文件或APP或有`已锁定`字样，这就会导致卸载或者移除不了，而且哪怕是利用`root`账户登录后，都没办法解除锁定。
 
-<img src="macOS.assets/image-20220115214018045.png" alt="image-20220115214018045" style="margin-left:30px;" />
+<img src="README.assets/image-20220115214018045.png" alt="image-20220115214018045" style="margin-left:30px;" />
 
 1. 列出已锁定文件或APP的权限信息
-
+   
    ```shell
    ls -dleO@ /Applications/Karabiner-EventViewer.app
    ```
-
-   <img src="macOS.assets/image-20220115213642868.png" alt="image-20220115213642868" style="margin-left:30px;" />
-
+   
+   <img src="README.assets/image-20220115213642868.png" alt="image-20220115213642868" style="margin-left:30px;" />
+   
    可以发现其中是有`schg`和`uchg`权限设置的
 
 2. 移除找到的权限
-
+   
    ```shell
    # 移除 schg 权限
    sudo chflags -R noschg /Applications/Karabiner-EventViewer.app
    # 移除 uchg 权限
-   
    ```
-
-   <img src="macOS.assets/image-20220115214745173.png" alt="image-20220115214745173" style="margin-left:30px;" />
-
+   
+   <img src="README.assets/image-20220115214745173.png" alt="image-20220115214745173" style="margin-left:30px;" />
+   
    接下来就可以看到锁定已被解除了
-
-   <img src="macOS.assets/image-20220115214902027.png" alt="image-20220115214902027" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20220115214902027.png" alt="image-20220115214902027" style="margin-left:30px;" />
 
 3. 然后就可以干它了
+   
+   <img src="README.assets/image-20220115215002800.png" alt="image-20220115215002800" style="margin-left:30px;" />
 
-   <img src="macOS.assets/image-20220115215002800.png" alt="image-20220115215002800" style="margin-left:30px;" />
-
-
-
-## 安装MySQL 5.7.29
+# 安装MySQL 5.7.29
 
 * 涉及到的系统版本：`10.14.3`
 
-### 下载安装
+## 下载安装
 
 * 下载地址：https://downloads.mysql.com/archives/community/
 * 版本：`v5.7.29`
 
 进入下载页面，选择好相应的版本与系统，下载`.dmg`文件
 
-<img src="macOS.assets/image-20220117223034851.png" alt="image-20220117223034851" style="margin-left:30px;" />
+<img src="README.assets/image-20220117223034851.png" alt="image-20220117223034851" style="margin-left:30px;" />
 
 然后运行`.dmg`，一路安装就行
 
 安装完成后，会在`系统偏好设置`里有`MySQL`的设置
 
-<img src="macOS.assets/image-20220117223146451.png" alt="image-20220117223146451" style="margin-left:30px;" />
+<img src="README.assets/image-20220117223146451.png" alt="image-20220117223146451" style="margin-left:30px;" />
 
-<img src="macOS.assets/image-20220117223249856.png" alt="image-20220117223249856" style="margin-left:30px;" />
+<img src="README.assets/image-20220117223249856.png" alt="image-20220117223249856" style="margin-left:30px;" />
 
-### 环境配置
+## 环境配置
 
 MySQL的安装位置： **/usr/local/mysql** 
 
 1. 打开`.bash_profile`文件（没有就新建）
-
+   
    ```shell
    vim ~/.bash_profile
    # 或者
@@ -144,46 +133,46 @@ MySQL的安装位置： **/usr/local/mysql**
    ```
 
 2. 添加环境变量
-
+   
    ```shell
    # Setting PATH for MySQL 5.7.29
    export PATH=$PATH:/usr/local/mysql/bin
    ```
-
-   <img src="macOS.assets/image-20220117224032312.png" alt="image-20220117224032312" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20220117224032312.png" alt="image-20220117224032312" style="margin-left:30px;" />
 
 3. 生效配置文件
-
+   
    ```shell
    source ~/.bash_profile
    ```
 
-### 设置密码
+## 设置密码
 
 1. 输入指令
-
+   
    ```shell
    cd /usr/local/mysql/bin/
    sudo ./mysqld_safe --skip-grant-tables
    ```
 
 2. 打开`MySQL服务`
-
-   <img src="macOS.assets/image-20220117224641051.png" alt="image-20220117224641051" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20220117224641051.png" alt="image-20220117224641051" style="margin-left:30px;" />
 
 3. 进入MySQL界面
-
+   
    ```shell
    # 操作过第1步后，就可以不用输入密码直接进入MySQL界面了
    mysql -uroot
    ```
-
-   <img src="macOS.assets/image-20220117224951364.png" alt="image-20220117224951364" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20220117224951364.png" alt="image-20220117224951364" style="margin-left:30px;" />
 
 4. 设置`root`账户的密码
-
+   
    MySQL界面下：
-
+   
    ```mysql
    FLUSH PRIVILEGES;
    SET PASSWORD FOR root@'localhost' = PASSWORD('${your_password}');
@@ -191,45 +180,45 @@ MySQL的安装位置： **/usr/local/mysql**
 
 然后就可以用设置好的密码登录`root`账户了
 
-### 字符集编码
+## 字符集编码
 
 MySQL的字符集编码是一大坑
 
 1. 登录MySQL查看其字符集编码
-
+   
    ```shell
    mysql -uroot -p
    ```
-
+   
    MySQL界面：
-
+   
    ```mysql
    # 查看字符集编码
    show variables like 'character_set_%';
    ```
-
-   <img src="macOS.assets/image-20220117230000181.png" alt="image-20220117230000181" style="margin-left:30px;" />
-
+   
+   <img src="README.assets/image-20220117230000181.png" alt="image-20220117230000181" style="margin-left:30px;" />
+   
    果然并不是所有的编码都是`utf-8`
 
 2. `系统偏好设置` -> `MySQL` -> 关闭`MySQL服务`
-
-   <img src="macOS.assets/image-20220117230137347.png" alt="image-20220117230137347" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20220117230137347.png" alt="image-20220117230137347" style="margin-left:30px;" />
 
 3. 在 **/etc** 下新建`my.cnf`文件
-
+   
    ```shell
    sudo touch /etc/my.cnf
    ```
 
 4. 编辑`my.cnf`配置文件
-
+   
    ```shell
    sudo vim /etc/my.cnf
    ```
-
+   
    `my.cnf`中粘贴如下：
-
+   
    ```config
    # Example MySQL config file for medium systems. 
    # 
@@ -378,126 +367,121 @@ MySQL的字符集编码是一大坑
    [mysqlhotcopy] 
    interactive-timeout
    ```
-
-   <img src="macOS.assets/image-20220117230616385.png" alt="image-20220117230616385" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20220117230616385.png" alt="image-20220117230616385" style="margin-left:30px;" />
 
 5. 保存`my.cnf`配置文件，并重新启动`MySQL服务`
-
+   
    再次在MySQL界面下查看其字符集编码
-
+   
    ```mysql
    # 查看字符集编码
    show variables like 'character_set_%';
    ```
-
-   <img src="macOS.assets/image-20220117231126668.png" alt="image-20220117231126668" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20220117231126668.png" alt="image-20220117231126668" style="margin-left:30px;" />
 
 可以发现，字符集编码已改为`utf-8`的了
 
-
-
-## 安装Navicat 15
+# 安装Navicat 15
 
 * 涉及到的系统版本：`10.14.3`
 
-### 下载安装
+## 下载安装
 
 * 安装文件下载地址：https://pan.baidu.com/s/1XPAJBtGdZ1lgNGha-gblbg 密码：`j8m0`
 * 版本：`v15.0.15`
 
 拖拽安装`Navicat Premium`
 
-<img src="macOS.assets/image-20220118145421657.png" alt="image-20220118145421657" style="margin-left:30px;" />
+<img src="README.assets/image-20220118145421657.png" alt="image-20220118145421657" style="margin-left:30px;" />
 
-### 工具激活
+## 工具激活
 
 * 激活工具下载地址： **./resource/navicat15-keygen-mac.zip**
-
 1. 打开终端，进入激活工具目录，使用`navicat-patcher`来替换掉公钥
-
+   
    ```shell
    cd ${your_path/navicat15-keygen-mac}
    ```
-
-   <img src="macOS.assets/image-20220118150206031.png" alt="image-20220118150206031" style="margin-left:30px;" />
-
+   
+   <img src="README.assets/image-20220118150206031.png" alt="image-20220118150206031" style="margin-left:30px;" />
+   
    ```shell
    sudo chmod 777 ./navicat-patcher
    sudo ./navicat-patcher /Applications/Navicat\ Premium.app
    ```
-
-   <img src="macOS.assets/image-20220118151526073.png" alt="image-20220118151526073" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20220118151526073.png" alt="image-20220118151526073" style="margin-left:30px;" />
 
 2. 生成证书并信任证书
-
+   
    * 打开`钥匙串访问`
-
-     <img src="macOS.assets/image-20220118152300982.png" alt="image-20220118152300982" style="margin-left:30px;" />
-
+     
+     <img src="README.assets/image-20220118152300982.png" alt="image-20220118152300982" style="margin-left:30px;" />
+   
    * 生成证书
-
+     
      左上角的 `钥匙串访问` -> `证书助理` -> `创建证书颁发机构`
-
-     <img src="macOS.assets/image-20220118153139553.png" alt="image-20220118153139553" style="margin-left:30px;" />
-
-     <img src="macOS.assets/image-20220118153747755.png" alt="image-20220118153747755" style="margin-left:30px;" />
-
+     
+     <img src="README.assets/image-20220118153139553.png" alt="image-20220118153139553" style="margin-left:30px;" />
+     
+     <img src="README.assets/image-20220118153747755.png" alt="image-20220118153747755" style="margin-left:30px;" />
+   
    * 信任证书
-
-     <img src="macOS.assets/image-20220118154358083.png" alt="image-20220118154358083" style="margin-left:30px;" />
+     
+     <img src="README.assets/image-20220118154358083.png" alt="image-20220118154358083" style="margin-left:30px;" />
 
 3. 用`codesign`对`libcc-premium.dylib` 和`Navicat Premium.app`进行重签名
-
+   
    ```shell
    codesign -f -s Navicat /Applications/Navicat\ Premium.app/Contents/Frameworks/libcc-premium.dylib
    codesign -f -s Navicat /Applications/Navicat\ Premium.app/
    ```
-
-   <img src="macOS.assets/image-20220118154823247.png" alt="image-20220118154823247" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20220118154823247.png" alt="image-20220118154823247" style="margin-left:30px;" />
 
 4. 使用`navicat-keygen`来生成`序列号`和`激活码`
-
+   
    ```shell
    sudo ./navicat-keygen ./RegPrivateKey.pem
    ```
-
-   <img src="macOS.assets/image-20220118155919081.png" alt="image-20220118155919081" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20220118155919081.png" alt="image-20220118155919081" style="margin-left:30px;" />
 
 5. **断网激活** 
-
+   
    * 先 **断开网络连接** ，然后打开安装好的`Navicat Premium`，选择`注册`
-
-     <img src="macOS.assets/image-20220118160428147.png" alt="image-20220118160428147" style="margin-left:30px;" />
-
+     
+     <img src="README.assets/image-20220118160428147.png" alt="image-20220118160428147" style="margin-left:30px;" />
+   
    * 输入第4步生成的`序列号`
-
-     <img src="macOS.assets/image-20220118160723771.png" alt="image-20220118160723771" style="margin-left:30px;" />
-
+     
+     <img src="README.assets/image-20220118160723771.png" alt="image-20220118160723771" style="margin-left:30px;" />
+   
    * 选择`手动激活`
-
-     <img src="macOS.assets/image-20220118160831046.png" alt="image-20220118160831046" style="margin-left:30px;" />
-
+     
+     <img src="README.assets/image-20220118160831046.png" alt="image-20220118160831046" style="margin-left:30px;" />
+   
    * 将`请求码`粘贴到终端，再将生成的`激活码`复制回面板
-
-     <img src="macOS.assets/image-20220118161325977.png" alt="image-20220118161325977" style="margin-left:30px;" />
+     
+     <img src="README.assets/image-20220118161325977.png" alt="image-20220118161325977" style="margin-left:30px;" />
 
 激活成功
 
-<img src="macOS.assets/image-20220118161524211.png" alt="image-20220118161524211" style="margin-left:30px;" />
+<img src="README.assets/image-20220118161524211.png" alt="image-20220118161524211" style="margin-left:30px;" />
 
-<img src="macOS.assets/image-20220118162314151.png" alt="image-20220118162314151" style="margin-left:30px;" />
+<img src="README.assets/image-20220118162314151.png" alt="image-20220118162314151" style="margin-left:30px;" />
 
-
-
-## 实用工具APP大赏
+**实用工具APP大赏**
 
 * 涉及到的系统版本：`10.14.3`
 
-### 键盘键位映射
+# 键盘键位映射
 
-#### Karabiner-Elements
+## Karabiner-Elements
 
-##### 基本信息
+### 基本信息
 
 * 涉及到的系统版本：`10.14.3`
 * APP名称：`Karabiner-Elements`
@@ -505,45 +489,45 @@ MySQL的字符集编码是一大坑
 * 性质：免费/开源
 * 下载地址：https://github.com/pqrs-org/Karabiner-Elements/releases
 
-<img src="macOS.assets/image-20220115221840032.png" alt="image-20220115221840032" style="margin-left:30px;" />
+<img src="README.assets/image-20220115221840032.png" alt="image-20220115221840032" style="margin-left:30px;" />
 
-##### 键位映射
+### 键位映射
 
-<img src="macOS.assets/image-20220115222324879.png" alt="image-20220115222324879" style="margin-left:30px;" />
+<img src="README.assets/image-20220115222324879.png" alt="image-20220115222324879" style="margin-left:30px;" />
 
-##### 开机自启
+### 开机自启
 
 如果只是单纯的在 `系统偏好设置` -> `用户与群组` -> `指定账户` -> `登录项` 里添加`Karabiner-Elements.app`的话，系统开机后，会弹出`Karabiner-Elements`的界面。
 
-<img src="macOS.assets/image-20220115224757697.png" alt="image-20220115224757697" style="margin-left:30px;" />
+<img src="README.assets/image-20220115224757697.png" alt="image-20220115224757697" style="margin-left:30px;" />
 
 取消`Karabiner-Elements`在开机自启时弹出窗口界面：
 
 1. 编写启动脚本
-
+   
    在 `启动台` -> `其他` -> `脚本编辑器` 中新建脚本，粘贴如下代码：
-
+   
    ```shell
    do shell script "launchctl load -w /Library/LaunchAgents/org.pqrs.karabiner.karabiner_console_user_server.plist"
    ```
-
-   <img src="macOS.assets/image-20220115225208614.png" alt="image-20220115225208614" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20220115225208614.png" alt="image-20220115225208614" style="margin-left:30px;" />
 
 2. 保存脚本，取名为`Karabiner-Loader`，同时选择文件格式为`应用程序`，保存在任意目录均可
-
-   <img src="macOS.assets/image-20220115225408636.png" alt="image-20220115225408636" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20220115225408636.png" alt="image-20220115225408636" style="margin-left:30px;" />
 
 3. 设置启动脚本为登录启动项
-
+   
    在 `系统偏好设置` -> `用户与群组` -> `指定账户` -> `登录项` 里添加`Karabiner-Loader.app`
+   
+   <img src="README.assets/image-20220115225613805.png" alt="image-20220115225613805" style="margin-left:30px;" />
 
-   <img src="macOS.assets/image-20220115225613805.png" alt="image-20220115225613805" style="margin-left:30px;" />
+# 解压缩工具
 
-### 解压缩工具
+## BetterZip
 
-#### BetterZip
-
-##### 基本信息
+### 基本信息
 
 * 涉及到的系统版本：`10.14.3`
 * APP名称：`BetterZip`
@@ -551,19 +535,19 @@ MySQL的字符集编码是一大坑
 * 性质：收费/破解
 * 下载地址： **./resource/BetterZip-4.2.4.zip**
 
-##### 注册激活
+### 注册激活
 
 * 注册码/激活码
-
+  
   ```
   nHYGNLkAvi8uwX4KzanQJyEk1FTSWDQQnmKj3f0V0gozGaGGh8g9TOI2+Uq+PcGLrjYszPVXquCmiOHDgikBwj+FWswHdSj8FJc8zhyURzf4s6h0zSdyx5qNCTDjOzoo9vbgrPLGIiUS7Hexc183LEoQe4tZx83Ii43p0muRfzg=
   ```
+  
+  <img src="README.assets/image-20220115223537654.png" alt="image-20220115223537654" style="margin-left:30px;" />
 
-  <img src="macOS.assets/image-20220115223537654.png" alt="image-20220115223537654" style="margin-left:30px;" />
+# 软件卸载工具
 
-### 软件卸载工具
-
-#### AppCleaner
+## AppCleaner
 
 基本信息
 
@@ -573,13 +557,15 @@ MySQL的字符集编码是一大坑
 * 性质：免费
 * 下载地址： **./resource/AppCleaner-3.6.0.zip**
 
-<img src="macOS.assets/image-20220115231109789.png" alt="image-20220115231109789" style="margin-left:30px;" />
+<img src="README.assets/image-20220115231109789.png" alt="image-20220115231109789" style="margin-left:30px;" />
 
-### Markdown笔记
+# Markdown笔记
 
-#### Typora
+## Typora
 
-##### 基本信息
+**注：** `该软件已经收费了，免费版本用不了，可以替换成其他的开源软件，此处不再推荐typora`
+
+### 基本信息
 
 * 涉及到的系统版本：`10.14.3`
 * APP名称：`Typora`
@@ -587,27 +573,73 @@ MySQL的字符集编码是一大坑
 * 性质：最后一个免费版
 * 下载地址： **./resource/Typora-0.11.8.dmg**
 
-<img src="macOS.assets/image-20220115221545209.png" alt="image-20220115221545209" style="margin-left:30px;" />
+<img src="README.assets/image-20220115221545209.png" alt="image-20220115221545209" style="margin-left:30px;" />
 
-##### 使用配置
+### 使用配置
 
 * 编辑器
-
-  <img src="macOS.assets/image-20220115223758352.png" alt="image-20220115223758352" style="margin-left:30px;" />
+  
+  <img src="README.assets/image-20220115223758352.png" alt="image-20220115223758352" style="margin-left:30px;" />
 
 * 图像
-
-  <img src="macOS.assets/image-20220115223833401.png" alt="image-20220115223833401" style="margin-left:30px;" />
+  
+  <img src="README.assets/image-20220115223833401.png" alt="image-20220115223833401" style="margin-left:30px;" />
 
 * Markdown
+  
+  <img src="README.assets/image-20220115223935395.png" alt="image-20220115223935395" style="margin-left:30px;" />
+  
+  <img src="README.assets/image-20220115223947432.png" alt="image-20220115223947432" style="margin-left:30px;" />
 
-  <img src="macOS.assets/image-20220115223935395.png" alt="image-20220115223935395" style="margin-left:30px;" />
+## MarkText
 
-  <img src="macOS.assets/image-20220115223947432.png" alt="image-20220115223947432" style="margin-left:30px;" />
+### 基本信息
 
-### 截屏工具
+- 涉及到的系统版本：`10.14.3`
+- APP名称：`MarkText`
+- 版本：`latest`
+- 性质：开源免费
+- 下载地址：https://github.com/marktext/marktext
 
-#### Snipaste
+### 使用配置
+
+* **General**
+  
+  ![](README.assets/2023-04-25-09-17-28-image.png)
+  
+  ![](README.assets/2023-04-25-09-19-43-image.png)
+
+* **Editor**
+  
+  ![](README.assets/2023-04-25-09-17-50-image.png)
+  
+  ![](README.assets/2023-04-25-09-18-05-image.png)
+  
+  ![](README.assets/2023-04-25-09-18-16-image.png)
+  
+  ![](README.assets/2023-04-25-09-18-23-image.png)
+
+* **Markdown**
+  
+  ![](README.assets/2023-04-25-09-20-38-image.png)
+  
+  ![](README.assets/2023-04-25-09-20-53-image.png)
+
+* **Spelling**
+  
+  ![](README.assets/2023-04-25-09-21-15-image.png)
+
+* **Theme**
+  
+  ![](README.assets/2023-04-25-09-21-33-image.png)
+
+* **Image**
+  
+  ![](README.assets/2023-04-25-09-22-02-image.png)
+
+# 截屏工具
+
+## Snipaste
 
 基本信息
 
@@ -617,11 +649,11 @@ MySQL的字符集编码是一大坑
 * 性质：免费
 * 下载地址：https://www.snipaste.com/download.html
 
-<img src="macOS.assets/image-20220115230504042.png" alt="image-20220115230504042" style="margin-left:30px;" />
+<img src="README.assets/image-20220115230504042.png" alt="image-20220115230504042" style="margin-left:30px;" />
 
-### 视频播放器
+# 视频播放器
 
-#### Movist Pro
+## Movist Pro
 
 基本信息
 
@@ -631,13 +663,13 @@ MySQL的字符集编码是一大坑
 * 性质：收费/破解
 * 下载地址：https://macwk.com/soft/movist
 
-<img src="macOS.assets/image-20220116171217430.png" alt="image-20220116171217430" style="margin-left:30px;" />
+<img src="README.assets/image-20220116171217430.png" alt="image-20220116171217430" style="margin-left:30px;" />
 
-### 下载工具
+# 下载工具
 
-#### Aria2
+## Aria2
 
-##### 基本信息
+### 基本信息
 
 * 涉及到的系统版本：`10.14.3`
 * 工具名称：`Aria2`
@@ -647,33 +679,33 @@ MySQL的字符集编码是一大坑
 
 命令行工具
 
-##### 使用配置
+### 使用配置
 
 1. 下载配置文件
-
+   
    ```shell
    git clone https://github.com/P3TERX/aria2.conf.git
    ```
-
-   <img src="macOS.assets/image-20220116224014747.png" alt="image-20220116224014747" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20220116224014747.png" alt="image-20220116224014747" style="margin-left:30px;" />
 
 2. 新建`.aria2`配置仓库，并把刚才下载的配置文件放进来
-
+   
    ```shell
    # 在用户根目录下新建文件夹
    mkdir ~/.aria2
    # 新建一个.session会话文件
    touch ~/.aria2/aria2.session
    ```
-
+   
    把刚才下载的配置文件放进来
-
-   <img src="macOS.assets/image-20220116224503831.png" alt="image-20220116224503831" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20220116224503831.png" alt="image-20220116224503831" style="margin-left:30px;" />
 
 3. 修改配置文件`aria2.conf`
-
+   
    把`dir`、`input-file`和`save-session`的地址改成自己的地址
-
+   
    ```shell
    # 下载目录。可使用绝对路径或相对路径, 默认: 当前启动位置
    dir=~/Datum/DocumentDatum/download/aria2
@@ -685,32 +717,32 @@ MySQL的字符集编码是一大坑
    # Aria2 退出时或指定的时间间隔会保存`错误/未完成`的下载任务到会话文件
    save-session=./aria2.session
    ```
-
-   <img src="macOS.assets/image-20220116225208532.png" alt="image-20220116225208532" style="margin-left:30px;" />
-
-   <img src="macOS.assets/image-20220116231308677.png" alt="image-20220116231308677" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20220116225208532.png" alt="image-20220116225208532" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20220116231308677.png" alt="image-20220116231308677" style="margin-left:30px;" />
 
 4. 下载安装`aria2c`
-
+   
    下载地址： **./resource/aria2c.zip**
-
+   
    下载好了以后，将解压后的文件夹整个拖入到`/Applications`应用程序下
-
-   <img src="macOS.assets/image-20220116230041286.png" alt="image-20220116230041286" style="margin-left:30px;" />
+   
+   <img src="README.assets/image-20220116230041286.png" alt="image-20220116230041286" style="margin-left:30px;" />
 
 5. 打开终端，运行`Aria2`
-
+   
    ```shell
    # 运行
    aria2c
    # 查看运行是否成功
    ps aux|grep aria2c
    ```
-
-   <img src="macOS.assets/image-20220116230816764.png" alt="image-20220116230816764" style="margin-left:30px;" />
-
+   
+   <img src="README.assets/image-20220116230816764.png" alt="image-20220116230816764" style="margin-left:30px;" />
+   
    运行`aria2c`时，若提示`command not found`：
-
+   
    ```shell
    cd /usr/local/bin
    sudo ln -s ../aria2/bin/aria2c

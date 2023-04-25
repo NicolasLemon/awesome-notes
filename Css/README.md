@@ -146,7 +146,7 @@ CSS盒子模型本质上就是一个盒子
      
      当上下相邻的两个块元素（兄弟关系）相遇时，如果上面元素有下外边距`margin-bottom`，下面的元素有上外边距`margin-top`，则它们之间的垂直间距不是`margin-bottom`与`margin-top`之和，是**取两个值中较大者的间距**
      
-     ![](Css-Notes.assets/2022-08-11-13-55-13-image.png)
+     ![](README.assets/2022-08-11-13-55-13-image.png)
      
      **解决方案：**
      
@@ -156,7 +156,7 @@ CSS盒子模型本质上就是一个盒子
      
      对于两个嵌套关系（父子关系）的块元素，**父元素**有上外边距`margin-top`的同时**子元素**也有上外边距`margin-top`，此时父元素会**塌陷较大的外边距值**
      
-     ![](Css-Notes.assets/2022-08-11-13-58-35-image.png)
+     ![](README.assets/2022-08-11-13-58-35-image.png)
      
      **解决方案：**
      
@@ -512,7 +512,7 @@ CSS盒子模型本质上就是一个盒子
 
 ## 原理
 
-![](Css-Notes.assets/2022-08-09-14-02-13-image.png)
+![](README.assets/2022-08-09-14-02-13-image.png)
 
 ```html
 <div class="box"></div>
@@ -535,11 +535,11 @@ CSS盒子模型本质上就是一个盒子
 
 ## 基础三角
 
-### 等腰直角三角形
+## 等腰直角三角形
 
-#### triangle1
+### triangle1
 
-![](Css-Notes.assets/2022-08-09-14-08-52-image.png)
+![](README.assets/2022-08-09-14-08-52-image.png)
 
 ```html
 <div class="box"></div>
@@ -561,9 +561,9 @@ CSS盒子模型本质上就是一个盒子
 }
 ```
 
-#### triangle2
+### triangle2
 
-![](Css-Notes.assets/2022-08-09-14-26-37-image.png)
+![](README.assets/2022-08-09-14-26-37-image.png)
 
 ```html
 <div class="box"></div>
@@ -584,9 +584,9 @@ CSS盒子模型本质上就是一个盒子
 }
 ```
 
-### 等腰三角形
+## 等腰三角形
 
-![](Css-Notes.assets/2022-08-09-14-21-34-image.png)
+![](README.assets/2022-08-09-14-21-34-image.png)
 
 ```html
 <div class="box"></div>
@@ -609,9 +609,9 @@ CSS盒子模型本质上就是一个盒子
 }
 ```
 
-### 直角三角形
+## 直角三角形
 
-![](Css-Notes.assets/2022-08-09-14-29-50-image.png)
+![](README.assets/2022-08-09-14-29-50-image.png)
 
 ```html
 <div class="box"></div>
@@ -632,9 +632,9 @@ CSS盒子模型本质上就是一个盒子
 }
 ```
 
-### 一般三角形
+## 一般三角形
 
-![](Css-Notes.assets/2022-08-09-14-31-47-image.png)
+![](README.assets/2022-08-09-14-31-47-image.png)
 
 ```html
 <div class="box"></div>
@@ -655,21 +655,19 @@ CSS盒子模型本质上就是一个盒子
 }
 ```
 
-## 综合应用
-
-### 案例1
+## 案例1
 
 实现斜边框带`Border`效果的
 
-![](Css-Notes.assets/2022-08-09-14-54-08-image.png)
+![](README.assets/2022-08-09-14-54-08-image.png)
 
-#### 分析
+### 分析
 
 实际上是由两个斜边框堆叠而成，而一个斜边框又可以由一个正常边框+三角形构成
 
-![](Css-Notes.assets/2022-08-09-14-58-15-image.png)
+![](README.assets/2022-08-09-14-58-15-image.png)
 
-#### 实现
+### 实现
 
 ```html
 <div class="bottom">
@@ -745,7 +743,7 @@ CSS盒子模型本质上就是一个盒子
 
 可以发现顶层和底层只是和颜色不同，高度差即为视觉`Border`的宽度，所以可以提取公共css，进行样式优化，减少重复代码
 
-#### 优化
+### 优化
 
 提取出公共css部分
 
@@ -810,21 +808,19 @@ CSS盒子模型本质上就是一个盒子
 }
 ```
 
-### 案例2
+## 案例2
 
 突出边框的
 
-![](Css-Notes.assets/2022-08-09-16-02-18-image.png)
+![](README.assets/2022-08-09-16-02-18-image.png)
 
-#### 分析
+### 分析
 
 实际上可由一个正常的盒子加上两个三角形组成
 
-![](Css-Notes.assets/2022-08-09-16-05-00-image.png)
+![](README.assets/2022-08-09-16-05-00-image.png)
 
-#### 实现
-
-##### 方式1
+### 实现1
 
 利用伪元素拼凑出两个三角形
 
@@ -892,11 +888,11 @@ CSS盒子模型本质上就是一个盒子
 
 可以看出`::before`和`::after`拼凑出来的三角形相当于做了镜像翻转的，因此也可以采用方式2
 
-##### 方式2
+### 实现2
 
 只实现左边的三角形，然后对它做一个沿`Y轴翻转`的动作
 
-![](Css-Notes.assets/2022-08-09-16-35-11-image.png)
+![](README.assets/2022-08-09-16-35-11-image.png)
 
 ```html
 <div class="border">
@@ -957,11 +953,9 @@ CSS盒子模型本质上就是一个盒子
 }
 ```
 
-### 案例3
+## 案例3
 
-![](Css-Notes.assets/2022-08-09-16-44-42-image.png)
-
-#### 实现
+![](README.assets/2022-08-09-16-44-42-image.png)
 
 ```html
 <div class="border"></div>
@@ -1001,9 +995,7 @@ CSS盒子模型本质上就是一个盒子
 
 # 渐变色边框
 
-![](Css-Notes.assets/2022-08-09-20-38-23-image.png)
-
-## 实现
+![](README.assets/2022-08-09-20-38-23-image.png)
 
 ```html
 <div class="border">
