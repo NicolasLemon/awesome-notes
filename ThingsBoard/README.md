@@ -24,7 +24,48 @@
 
 1. 安装包
    
-   [jdk-11.0.14_windows-x64_bin.zip](./resource/jdk-11.0.14_windows-x64_bin.zip)
+   [jdk-11.0.14_windows-x64_bin](./resource/jdk-11.0.14_windows-x64_bin)
+   
+   github有限制，不让上传大于100MB的文件，因此对压缩包做了拆分（python3）
+   
+   ```shell
+   pip install filesplit
+   ```
+   
+   拆分：
+   
+   ```python
+   # -*- coding: utf-8 -*-
+   from filesplit.split import Split
+   
+   
+   def main():
+       split = Split(r"./jdk-11.0.14_windows-x64_bin.zip", "./output")
+       # 每个文件最多99MB
+       split.bysize(size=1024 * 1000 * 99)
+   
+   
+   if __name__ == '__main__':
+       main()
+   
+   ```
+   
+   合并：
+   
+   ```python
+   # -*- coding: utf-8 -*-
+   from filesplit.merge import Merge
+   
+   
+   def main():
+       merge = Merge(inputdir="./output", outputdir="./", outputfilename="jdk-11.0.14_windows-x64_bin.zip")
+       merge.merge()
+   
+   
+   if __name__ == '__main__':
+       main()
+   
+   ```
 
 2. 更换其安装位置
    
