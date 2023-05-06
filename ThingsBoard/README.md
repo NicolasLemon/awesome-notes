@@ -3,8 +3,10 @@
 - **作者：** Nicolas·Lemon
 - **修改：** Nicolas·Lemon
 - **创建日期：** 2023.05.04
-- **修改日期：** 2023.05.05
+- **修改日期：** 2023.05.06
 - **ThingsBorad版本：** release-3.4
+
+**注：** 当前编译环境是在Win10下，若后续需要在macOS下编译再来补充
 
 # 源码下载
 
@@ -50,6 +52,41 @@
    
    ![](README.assets/2023-05-04-16-27-51-image.png)
 
+6. 修改maven编译版本
+   
+   本地maven编译版本是jdk1.8，现在要用jdk11，打开maven的`settings.xml`配置，找到原来配置jdk1.8的地方，作如下修改：
+   
+   ```xml
+   <!-- java版本 -->
+   <profile>
+       <id>jdk-1.8</id>
+       <activation>
+           <activeByDefault>false</activeByDefault>
+           <jdk>1.8</jdk>
+       </activation>
+       <properties>
+       <maven.compiler.source>1.8</maven.compiler.source>
+           <maven.compiler.target>1.8</maven.compiler.target>
+           <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+       </properties>
+   </profile>
+   
+   <profile>     
+       <id>jdk-11</id>   
+       <activation>        
+           <activeByDefault>true</activeByDefault>    
+           <jdk>11</jdk>      
+       </activation>  
+       <properties>  
+           <maven.compiler.source>11</maven.compiler.source> 
+           <maven.compiler.target>11</maven.compiler.target> 
+           <maven.compiler.compilerVersion>11</maven.compiler.compilerVersion>   
+       </properties>
+   </profile>
+   ```
+   
+   ![](README.assets/2023-05-06-08-59-50-image.png)
+
 ## PostgresSQL 14.2
 
 **注：** 此处是Docker部署
@@ -64,13 +101,15 @@
 
 2. 运行容器
    
+   本地已经创建公共网络`localnet`，没创建的先用`docker network create localnet`创建一下
+   
    ```shell
    docker run -it \
    --name postgres14 \
    --network localnet \
    -p 5432:5432 \
-   -v /D/Daturm/DockerVolume/postgres:/var/lib/postgresql \
-   -e POSTGRES_PASSWORD='root' \
+   -v /D/Daturm/DockerVolume/postgres/data:/var/lib/postgresql/data \
+   -e POSTGRES_PASSWORD='postgres' \
    -e ALLOW_IP_RANGE=0.0.0.0/0 \
    -d postgres:14.2
    ```
@@ -104,7 +143,7 @@
    psql -U postgres -W
    ```
    
-   输入密码：`root`
+   输入密码：`postgres`，注意，当前密码是不显示的，直接输入并回车即可
    
    ![](README.assets/2023-05-05-10-45-08-image.png)
    
@@ -116,7 +155,7 @@
    
    ![](README.assets/2023-05-05-10-55-07-image.png)
    
-   ![](README.assets/2023-05-05-10-53-45-image.png)
+   ![](README.assets/2023-05-06-09-49-33-image.png)
    
    重启容器
    
@@ -129,6 +168,14 @@
    ![](README.assets/2023-05-05-11-17-46-image.png)
 
 # 项目配置
+
+## 编译项目
+
+用命令行的话，管理员运行cmd，进入项目根目录：`mvn clean package -DskipTests`
+
+在idea中编译项目：参看截图
+
+![](README.assets/2023-05-06-09-29-58-image.png)
 
 ## 新建数据库
 
@@ -144,22 +191,20 @@
 
 ## 配置数据连接
 
-在`application/src/main/resources/thingsboard.yml`
+在`application/src/main/resources/thingsboard.yml`，这里按照上述配置后是不用动此处的，项目中的默认配置是对的
 
-![](README.assets/2023-05-05-15-09-00-image.png)
+![](README.assets/2023-05-06-09-17-15-image.png)
 
-## 注释liscense配置
+# 遇到的报错
 
-直接搜索`com.mycila`，并注释掉相关的内容
-
-![](README.assets/2023-05-05-11-27-37-image.png)
-
-# 报错
+**注：** 项目在导入idea时，一定一定得导入真正的路径，像笔者之前在桌面上做了目录映射的，然后直接导入映射的路径，在项目编译的时候，就遇到路径错误的问题，所以要直接导入项目所在的真正路径，避免踩到奇奇怪怪的坑。
 
 ## 方法of找不到符号
 
 ![](README.assets/2023-05-05-16-05-26-image.png)
 
 解决：idea中的java编译器版本还是1.8的，需要改为11
+
+**注：** 下面这种修改方法治标不治本，一旦module发生变化，那么又变成1.8的了，这个就需要修改maven的配置文件，设置编译版本为`jdk-11`，方法已补充在本笔记中的 `环境搭建` -> `JDK 11` - > `6.修改maven编译版本`中
 
 ![](README.assets/2023-05-05-16-22-01-image.png)
