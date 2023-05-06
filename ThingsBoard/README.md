@@ -37,35 +37,34 @@
    ```python
    # -*- coding: utf-8 -*-
    from filesplit.split import Split
-   
+   ```
    
    def main():
+   
        split = Split(r"./jdk-11.0.14_windows-x64_bin.zip", "./output")
        # 每个文件最多99MB
        split.bysize(size=1024 * 1000 * 99)
    
-   
    if __name__ == '__main__':
+   
        main()
-   
-   ```
-   
-   合并：
-   
-   ```python
-   # -*- coding: utf-8 -*-
-   from filesplit.merge import Merge
-   
-   
-   def main():
-       merge = Merge(inputdir="./output", outputdir="./", outputfilename="jdk-11.0.14_windows-x64_bin.zip")
-       merge.merge()
-   
-   
-   if __name__ == '__main__':
-       main()
-   
-   ```
+
+```
+合并：
+
+```python
+# -*- coding: utf-8 -*-
+from filesplit.merge import Merge
+
+
+def main():
+    merge = Merge(inputdir="./output", outputdir="./", outputfilename="jdk-11.0.14_windows-x64_bin.zip")
+    merge.merge()
+
+
+if __name__ == '__main__':
+    main()
+```
 
 2. 更换其安装位置
    
@@ -208,6 +207,37 @@
    
    ![](README.assets/2023-05-05-11-17-46-image.png)
 
+## Kafka
+
+**提示：** 在运行thingsboard的时候，发现没有要启动kafka，但是在thingsboard的services中，有要启动kafka和redis，这里暂时可以先不用管kafka，等后面需要的时候，再来安装kafka和redis
+
+![](README.assets/2023-05-06-14-33-07-image.png)
+
+kafka依赖zookeeper，所以要先安装zookeeper
+
+### Zookeeper
+
+```shell
+docker run -d \
+--name zookeeper-server \
+--network localnet \
+-e ALLOW_ANONYMOUS_LOGIN=yes \
+bitnami/zookeeper:latest
+```
+
+### Kafka
+
+```shell
+docker run -d \
+--name kafka-server \
+--network localnet \
+-p 9092:9092 \
+-e ALLOW_PLAINTEXT_LISTENER=yes \
+-e KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper-server:2181 \
+-e KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092 \
+bitnami/kafka:latest
+```
+
 # 项目配置
 
 ## 编译项目
@@ -235,6 +265,47 @@
 在`application/src/main/resources/thingsboard.yml`，这里按照上述配置后是不用动此处的，项目中的默认配置是对的
 
 ![](README.assets/2023-05-06-09-17-15-image.png)
+
+## 初始化数据
+
+**注：** 这一步非常重要，不然启动项目是会报错的（`DefaultMailService`注入失败的问题）
+
+windows下的初始化数据脚本是：`./application/target/windows/install_dev_db.bat`
+
+macOS下的初始化数据脚本是：`./application/target/bin/install/install_dev_db.sh`
+
+用超级管理员权限运行对应的脚本后，会发现数据库表中多了初始数据
+
+![](README.assets/2023-05-06-14-40-50-image.png)
+
+# 运行项目
+
+直接运行`./application/src/main/java/org/thingsboard/server/ThingsboardServerApplication.java`
+
+![](README.assets/2023-05-06-14-42-12-image.png)
+
+等过一会儿，如果发现没啥报错的话
+
+![](README.assets/2023-05-06-14-43-57-image.png)
+
+就在浏览器中输入：`http://localhost:8080/`
+
+![](README.assets/2023-05-06-14-46-56-image.png)
+
+| 用户名                      | 密码       | 用户角色  |
+| ------------------------ | -------- | ----- |
+| sysadmin@thingsboard.org | sysadmin | 系统管理员 |
+| tenant@thingsboard.org   | tenant   | 租户管理员 |
+
+登录成功后
+
+![](README.assets/2023-05-06-14-47-46-image.png)
+
+# 参考资料
+
+1. https://blog.csdn.net/nihaomabmt/article/details/107385241
+   
+   ![](README.assets/2023-05-06-14-46-08-image.png)
 
 # 遇到的报错
 
