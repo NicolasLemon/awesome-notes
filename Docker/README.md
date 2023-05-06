@@ -3,7 +3,7 @@
 * **作者：** Nicolas·Lemon
 * **修改：** Nicolas·Lemon
 * **创建时间：** 2022.01.01
-* **修改时间：** 2023.04.24
+* **修改时间：** 2023.05.06
 
 # 常用命令
 
@@ -576,3 +576,43 @@ docker exec -it nginx service nginx reload
 # 重启Docker Nginx
 docker restart nginx
 ```
+
+# Postgresql 14.2
+
+1. 运行容器
+   
+   ```shell
+   docker run -it \
+   --name postgres14 \
+   --network localnet \
+   -p 5432:5432 \
+   -v /D/Daturm/DockerVolume/postgres/data:/var/lib/postgresql/data \
+   -e POSTGRES_PASSWORD='postgres' \
+   -e ALLOW_IP_RANGE=0.0.0.0/0 \
+   -d postgres:14.2
+   ```
+
+2. 拷贝出数据文件夹
+   
+   ```shell
+   docker cp postgres14:/var/lib/postgresql/data D:/Daturm/DockerVolume/postgres
+   docker restart postgres14
+   ```
+
+3. 配置远程访问权限
+   
+   修改配置文件`pg_hba.conf`，在对应位置加入相应的内容
+   
+   ![](README.assets/dda6b22b74930b62c6daee679eb200a633b72254.png)
+   
+   ![](README.assets/d781a2168c267ae289c850fe1188df566a907d95.png)
+   
+   重启容器
+   
+   ```shell
+   docker restart postgres14
+   ```
+   
+   利用Navicat外部连接成功
+   
+   ![](README.assets/366237a8a2fce3398fd740ff3335a9375a1ce193.png)
